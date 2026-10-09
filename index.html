@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Anatomía de la vid · Viticultura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Lámina de herbario y preparación al microscopio: papel, tinta, safranina (tejidos lignificados) y verde rápido */
+:root{
+  color-scheme:light;
+  --paper:#f6f0e1; --paper2:#efe6d1; --ink:#2a2622; --muted:#6d655b;
+  --sepia:#7a5a36; --safra:#b8325a; --fast:#2f7d4f; --agua:#2c6fa8; --oro:#d4a23a;
+  --leaf:#6fae3c; --line:#ddd0b6; --card:#fffdf8;
+  --shadow:0 8px 24px rgba(60,40,20,.10); --r:12px;
+  --fd:"Fraunces",Georgia,serif; --fb:"Nunito",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font-family:var(--fb);font-size:17px;line-height:1.6;background-color:var(--paper);
+  background-image:linear-gradient(rgba(122,90,54,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(122,90,54,.06) 1px,transparent 1px);background-size:28px 28px}
+h1,h2,h3,h4{font-family:var(--fd);line-height:1.12;margin:0 0 .45em;text-wrap:balance}
+h2{font-size:clamp(1.7rem,3.8vw,2.5rem);font-weight:800}
+h3{font-size:1.18rem;font-weight:800}
+p{margin:.4em 0 .9em}
+b,strong{color:var(--fast)}
+em.lat{font-family:var(--fd);font-style:italic;color:var(--safra)}
+button{font-family:inherit;cursor:pointer}
+button:focus-visible,select:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--oro);outline-offset:2px}
+svg{max-width:100%;height:auto;display:block}
+svg text{font-family:var(--fb)}
+
+#topnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(246,240,225,.95);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+#topnav .in{display:flex;gap:4px;overflow-x:auto;padding:8px 14px;scrollbar-width:none;max-width:1200px;margin:auto}
+#topnav .in::-webkit-scrollbar{display:none}
+#topnav a{flex:none;text-decoration:none;color:var(--muted);font-weight:700;font-size:.85rem;padding:6px 12px;border-radius:999px}
+#topnav a:hover{color:var(--ink);background:var(--paper2)}
+#topnav a.on{background:var(--ink);color:var(--paper)}
+#prog{height:3px;background:linear-gradient(90deg,var(--fast),var(--oro),var(--safra));width:0}
+
+.sec{padding:60px 16px;border-bottom:1px dashed var(--line)}
+.wrap{max-width:1100px;margin:auto}
+.tag{display:inline-flex;gap:8px;align-items:center;font-weight:800;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sepia);border:1.5px solid var(--sepia);padding:3px 10px;border-radius:4px;margin-bottom:12px;background:var(--card)}
+.tag i{font-style:normal;color:var(--safra)}
+.lead{font-size:1.07rem;color:#4a433b;max-width:760px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid2>*,.grid3>*{min-width:0}
+@media (max-width:860px){.grid2,.grid3{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px 20px}
+.plate{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:10px;position:relative}
+.label{position:relative;background:var(--card);border:1.5px dashed var(--sepia);border-radius:6px;padding:12px 14px}
+.label::before{content:"";position:absolute;top:-7px;left:18px;width:30px;height:12px;background:rgba(212,162,58,.45);transform:rotate(-4deg)}
+.pill{display:inline-block;font-size:.78rem;font-weight:800;padding:2px 10px;border-radius:999px;background:#e2efe6;color:var(--fast);margin:2px 4px 2px 0}
+.pill.s{background:#f6dde5;color:var(--safra)}
+.pill.o{background:#f6ead0;color:#7b5a12}
+.pill.a{background:#dceaf6;color:var(--agua)}
+.note{border-left:5px solid var(--oro);background:#fbf2d9;padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0}
+.note.lz{border-color:var(--agua);background:#e6f0f8}
+.btn{border:0;background:var(--ink);color:var(--paper);font-weight:800;padding:10px 18px;border-radius:8px;box-shadow:0 3px 0 #000;transition:transform .1s}
+.btn:active{transform:translateY(3px);box-shadow:none}
+.btn.g{background:var(--fast);box-shadow:0 3px 0 #1b4d30}
+.btn.s{background:var(--safra);box-shadow:0 3px 0 #7c1f3c}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--ink);box-shadow:none}
+.btn.sm{padding:6px 13px;font-size:.9rem}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.seg{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.seg button{border:2px solid var(--ink);background:var(--card);color:var(--ink);font-weight:800;border-radius:8px;padding:6px 12px;font-size:.9rem}
+.seg button.on{background:var(--ink);color:var(--paper)}
+input[type=range]{width:100%;accent-color:var(--safra);height:28px}
+select{font:inherit;padding:6px 8px;border-radius:8px;border:2px solid var(--line);background:var(--card);width:100%}
+.big{font-family:var(--fd);font-size:2rem;font-weight:800;line-height:1.05}
+.tscroll{overflow-x:auto}
+table.t{width:100%;border-collapse:collapse;font-size:.92rem;background:var(--card)}
+.t th{background:var(--ink);color:var(--paper);padding:8px 10px;text-align:left;font-family:var(--fd)}
+.t td{padding:7px 10px;border-bottom:1px solid var(--line)}
+
+/* portada */
+.hero h1{font-size:clamp(2.2rem,5.4vw,3.8rem)}
+.hero h1 em{font-style:italic;color:var(--safra)}
+.centro{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.centro .logo{height:84px;flex:none}
+.centro .logo img{height:100%;width:auto;display:block}
+.centro .nm{font-weight:800;line-height:1.25}
+.centro .nm small{display:block;font-weight:700;color:var(--muted)}
+.draw path,.draw line{stroke-dasharray:900;stroke-dashoffset:900;animation:ink 2.4s ease forwards}
+@keyframes ink{to{stroke-dashoffset:0}}
+.fadein{opacity:0;animation:fade .8s ease forwards}
+@keyframes fade{to{opacity:1}}
+.lens{transition:transform .9s cubic-bezier(.3,1.2,.5,1),opacity .6s}
+
+/* taxonomía */
+.taxo{display:grid;gap:6px}
+.tx{border:0;text-align:left;border-radius:10px;padding:10px 14px;font-weight:800;color:var(--ink);background:var(--card);border:1.5px solid var(--line);display:flex;justify-content:space-between;gap:10px;transition:.2s}
+.tx small{color:var(--muted);font-weight:700}
+.tx.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tx.on small{color:#d8ccb4}
+.tx.trap{border-style:dashed;border-color:var(--safra)}
+
+/* hotspots */
+.hot{cursor:pointer}
+.hot circle{transition:r .2s}
+.hot:hover circle,.hot.on circle{r:12}
+.hot.on circle{fill:var(--safra)}
+.dim{opacity:.18;transition:opacity .5s}
+.hl{transition:opacity .5s}
+
+/* clasificador */
+.sorter .item{font-family:var(--fd);font-size:1.5rem;font-weight:800;text-align:center;padding:18px;border:2px dashed var(--sepia);border-radius:10px;margin:8px 0;background:#fff}
+.sorter .opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sorter .res{font-weight:700;min-height:26px}
+.bar{height:8px;background:var(--paper2);border-radius:4px;overflow:hidden}
+.bar div{height:100%;background:var(--fast);width:0;transition:width .3s}
+
+/* entrenudos */
+.inter{display:flex;align-items:flex-end;gap:3px;height:140px}
+.inter div{flex:1;border-radius:3px 3px 0 0;position:relative;cursor:pointer}
+.inter div:hover{outline:2px solid var(--ink)}
+
+/* raíz: zonas */
+.zone-order{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+@media (max-width:600px){.zone-order{grid-template-columns:1fr 1fr}}
+.zone-order button{border:2px solid var(--line);background:var(--card);border-radius:8px;padding:8px 4px;font-weight:800;font-size:.85rem;color:var(--ink);position:relative}
+.zone-order button.ok{border-color:var(--fast);background:#e2efe6}
+.zone-order button.ok::after{content:attr(data-n);position:absolute;top:-8px;right:-6px;background:var(--fast);color:#fff;border-radius:50%;width:20px;height:20px;font-size:.75rem;display:grid;place-items:center}
+.zone-order button.bad{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+/* corte transversal */
+.tis{cursor:pointer;transition:opacity .3s}
+.tis:hover{opacity:.82}
+
+/* simulador raíces */
+.ctrl{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ctrl label{font-weight:800;font-size:.85rem;display:block}
+@media (max-width:500px){.ctrl{grid-template-columns:1fr}}
+.chk{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chk label{display:flex;gap:6px;align-items:center;font-weight:700;font-size:.88rem;background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:4px 12px;cursor:pointer}
+
+/* caso */
+.cases{display:grid;gap:8px}
+.cases label{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer}
+.cases label.good{border-color:var(--fast);background:#e9f4ec}
+.cases label.badc{border-color:var(--safra);background:#f9e5eb}
+
+/* quiz y glosario */
+.quiz{max-width:760px;margin:auto}
+.qbar{height:8px;background:var(--paper2);border-radius:4px;overflow:hidden;margin-bottom:16px}
+.qbar div{height:100%;background:var(--safra);width:0;transition:width .4s}
+.opt{display:block;width:100%;text-align:left;border:2px solid var(--line);background:#fff;border-radius:10px;padding:12px 16px;margin:8px 0;font-size:1rem;font-weight:700;color:var(--ink);transition:.2s}
+.opt:hover:not(:disabled){border-color:var(--ink);transform:translateX(4px)}
+.opt.ok{background:#e2efe6;border-color:var(--fast)}
+.opt.ko{background:#f9e5eb;border-color:var(--safra)}
+.fb{margin-top:10px;padding:12px 14px;border-radius:10px;display:none}
+.fb.show{display:block}
+.score{font-family:var(--fd);font-size:3.2rem;font-weight:800;text-align:center;color:var(--safra)}
+.flips{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.flip{perspective:900px;height:140px;cursor:pointer;background:none;border:0;padding:0}
+.flip .inn{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.flip.on .inn{transform:rotateY(180deg)}
+.flip .fc,.flip .bc{position:absolute;inset:0;backface-visibility:hidden;border-radius:10px;display:grid;place-items:center;padding:12px;text-align:center}
+.flip .fc{background:var(--card);border:1.5px dashed var(--sepia);font-family:var(--fd);font-size:1.25rem;font-weight:800;color:var(--ink)}
+.flip .bc{background:var(--ink);color:var(--paper);transform:rotateY(180deg);font-size:.88rem}
+footer{text-align:center;padding:30px 16px 40px;color:var(--muted);font-size:.85rem}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.draw path,.draw line{stroke-dashoffset:0}.fadein{opacity:1}}
+</style>
+</head>
+<body>
+
+<nav id="topnav" aria-label="Apartados">
+  <div class="in">
+    <a href="#inicio">Inicio</a>
+    <a href="#identidad">La vid</a>
+    <a href="#cepa">Morfología</a>
+    <a href="#tronco">Tronco</a>
+    <a href="#brotes">Brazos y brotes</a>
+    <a href="#pampano">Pámpano</a>
+    <a href="#raices">Sistema radicular</a>
+    <a href="#simulador">Simulador de raíces</a>
+    <a href="#zonas">Raíz joven</a>
+    <a href="#microscopio">Anatomía primaria</a>
+    <a href="#secundaria">Anatomía secundaria</a>
+    <a href="#franca">Franca e injertada</a>
+    <a href="#caso">Caso práctico</a>
+    <a href="#quiz">Autoevaluación</a>
+    <a href="#glosario">Glosario</a>
+  </div>
+  <div id="prog"></div>
+</nav>
+
+<!-- ============ PORTADA ============ -->
+<section id="inicio" class="sec hero">
+  <div class="wrap grid2" style="align-items:center">
+    <div>
+      <div class="centro"><div class="logo"><img src="data:image/webp;base64,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" alt="Logotipo del CIFP Zonzamas"></div><div class="nm">CIFP Zonzamas<small>Curso 2026/27 · Viticultura</small></div></div>
+      <span class="tag">UT3 <i>·</i> Lámina n.º 3</span>
+      <h1>Anatomía y morfología de la <em>vid</em></h1>
+      <p class="lead">La <b>morfología</b> describe la forma y los órganos que vemos; la <b>anatomía</b> estudia los tejidos y cómo se organizan por dentro. Las raíces absorben agua y nutrientes, la parte aérea hace la fotosíntesis y los órganos reproductores producen la uva: ninguna parte actúa sola.</p>
+      <div class="row"><button class="btn s" id="lensBtn">🔬 Mirar la raíz al microscopio</button><a class="btn ghost" href="#cepa" style="text-decoration:none">Explorar la cepa →</a></div>
+      <div class="label" style="margin-top:18px;max-width:430px"><b style="color:var(--ink)">Pregunta para empezar:</b> ¿qué le pasaría a una cepa que conserva sus hojas pero tiene el sistema radicular gravemente dañado?</div>
+    </div>
+    <div class="plate"><svg id="heroSvg" viewBox="0 0 460 500" role="img" aria-label="Lámina botánica de una cepa con lupa sobre la raíz"></svg></div>
+  </div>
+</section>
+
+<!-- ============ IDENTIDAD ============ -->
+<section id="identidad" class="sec">
+  <div class="wrap">
+    <span class="tag">01 <i>·</i> Identidad botánica</span>
+    <h2>¿Qué es exactamente una vid?</h2>
+    <div class="grid2">
+      <div>
+        <p>La vid cultivada es <em class="lat">Vitis vinifera</em> L., de la familia <b>Vitáceas</b>. Es un <b>arbusto frutal semileñoso, trepador y sarmentoso</b>: tiene estructuras leñosas permanentes y brotes verdes que se lignifican. Se considera originaria de <b>Asia Menor y el Cáucaso</b>.</p>
+        <p>Si se deja crecer libremente puede llegar a <b>30 m</b> trepando con sus zarcillos sobre un soporte en busca de luz; sin soporte tiene <b>porte rastrero</b>. En el viñedo, la <b>poda y la conducción</b> le dan forma.</p>
+        <div class="grid2" style="gap:12px">
+          <div class="label"><b style="color:var(--ink)">Vid</b><br>Planta de la especie <em class="lat">Vitis vinifera</em>.</div>
+          <div class="label"><b style="color:var(--ink)">Cepa</b><br>Cada individuo de vid cultivado. 1 individuo = 1 cepa.</div>
+        </div>
+        <div class="note lz" style="margin-top:16px">🏝️ El porte bajo de muchos viñedos de <b>Lanzarote</b> se debe al sistema de cultivo y al manejo, no a que la vid haya perdido su capacidad natural de trepar.</div>
+      </div>
+      <div class="card">
+        <h3>Ubicación taxonómica</h3>
+        <p style="font-size:.92rem;margin-top:0">Pulsa cada escalón, de lo más general a lo más concreto.</p>
+        <div class="taxo" id="taxo"></div>
+        <p id="taxoTxt" class="label" style="margin:12px 0 0"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CEPA ============ -->
+<section id="cepa" class="sec">
+  <div class="wrap">
+    <span class="tag">02 <i>·</i> Morfología de la cepa</span>
+    <h2>Órganos y funciones</h2>
+    <p class="lead">Pulsa los números. Cambia de modo para ver el <b>nombre</b> o la <b>función</b>, o resalta las dos grandes partes de la cepa.</p>
+    <div class="grid2">
+      <div class="plate"><svg id="cepaSvg" viewBox="0 0 460 520" role="img" aria-label="Esquema de una cepa con sus órganos"></svg></div>
+      <div>
+        <div class="seg" id="cepaMode"><button data-m="n" class="on">📛 Nombre</button><button data-m="f">⚙️ Función</button></div>
+        <div class="seg" id="cepaPart"><button data-p="all" class="on">Toda la cepa</button><button data-p="sub">Parte subterránea</button><button data-p="aer">Parte aérea</button></div>
+        <div class="card" id="cepaTxt"></div>
+        <div class="note">💧 La <b>savia bruta</b> (agua y minerales) sube por el <b>xilema</b>. Las hojas fabrican azúcares y el <b>floema</b> los reparte entre los órganos que los producen (fuente) y los que los consumen o almacenan. Si la cepa pierde muchas hojas, llegan menos azúcares a los racimos.</div>
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:20px">
+      <div class="card sorter" id="sorter1"></div>
+      <div class="card">
+        <h3>Pámpano y sarmiento: el mismo brote</h3>
+        <p style="margin:0">No son órganos distintos: describen el brote según su estado. <b>Pámpano</b> = brote verde del año. <b>Sarmiento</b> = pámpano lignificado. Tras la poda, un tramo corto de sarmiento es un <b>pulgar</b> (o pitón) y uno largo, una <b>vara</b> (o cargador).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRONCO ============ -->
+<section id="tronco" class="sec">
+  <div class="wrap">
+    <span class="tag">03 <i>·</i> Parte aérea · Tronco</span>
+    <h2>El tronco: sostén, conducción y despensa</h2>
+    <div class="grid2">
+      <div>
+        <p>Más o menos definido según el <b>sistema de formación</b>. Aspecto <b>retorcido, sinuoso y agrietado</b>, cubierto por una corteza que se desprende en <b>tiras longitudinales</b>: el <b>ritidoma</b>, que se renueva cada año.</p>
+        <label for="altura"><b>Sistema de formación</b></label>
+        <input type="range" id="altura" min="0" max="1" step="0.01" value="0">
+        <div class="row" style="justify-content:space-between;font-size:.85rem;font-weight:800;color:var(--muted)"><span>Vaso manchego (&lt;1 m)</span><span>Parral (2 m)</span></div>
+        <div class="grid3" style="margin-top:14px;gap:10px">
+          <div class="label"><b style="color:var(--ink)">Diámetro</b><br>0,10–0,30 m</div>
+          <div class="label"><b style="color:var(--ink)">Récord</b><br>2,5 m de circunferencia en la base</div>
+          <div class="label"><b style="color:var(--ink)">Funciones</b><br>Reservas, sujeción de brazos y pámpanos, conducción</div>
+        </div>
+        <div class="card" style="margin-top:14px">
+          <h3>Las capas de la corteza</h3>
+          <p style="margin:0;font-size:.95rem"><span class="pill o">Epidermis + súber</span> tejido protector de células muertas. <span class="pill s">Líber = floema</span> vasos que conducen la savia elaborada. <span class="pill">Capa de crecimiento</span> tejido que genera las nuevas capas.</p>
+        </div>
+      </div>
+      <div class="plate"><svg id="troncoSvg" viewBox="0 0 420 420" role="img" aria-label="Partes del tronco según el sistema de formación"></svg></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BROTES ============ -->
+<section id="brotes" class="sec">
+  <div class="wrap">
+    <span class="tag">04 <i>·</i> Brazos, brotes y maderas</span>
+    <h2>¿Este brote dará uva?</h2>
+    <p class="lead">Los <b>brazos</b> son bifurcaciones del tronco que proceden de antiguos sarmientos: conducen savia bruta y elaborada, reparten la vegetación y los frutos en el espacio y portan los tallos del año. Pulsa cada brote.</p>
+    <div class="grid2">
+      <div class="plate"><svg id="broteSvg" viewBox="0 0 460 380" role="img" aria-label="Cepa con brotes productivos e improductivos"></svg></div>
+      <div>
+        <div class="card" id="broteTxt"></div>
+        <div class="card sorter" id="sorter2" style="margin-top:14px"></div>
+      </div>
+    </div>
+    <h3 style="margin-top:30px">Tipos de madera</h3>
+    <div class="grid2">
+      <div class="plate"><svg id="maderaSvg" viewBox="0 0 460 300" role="img" aria-label="Tipos de madera de la vid"></svg></div>
+      <div>
+        <div class="seg" id="maderaSeg"><button data-k="0" class="on">a · Del año</button><button data-k="1">b · De 1 año</button><button data-k="2">c · De 2 años</button><button data-k="3">d · Vieja</button></div>
+        <div class="card" id="maderaTxt"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PÁMPANO ============ -->
+<section id="pampano" class="sec">
+  <div class="wrap">
+    <span class="tag">05 <i>·</i> Pámpano → sarmiento</span>
+    <h2>Del brote verde a la madera</h2>
+    <div class="grid2">
+      <div>
+        <p>El pámpano nace de una yema, crece en primavera y se detiene en verano. Al principio es <b>herbáceo</b>. Con el <b>envero</b> empieza el <b>agostamiento</b>: de la <b>base al ápice</b> pierde agua, se lignifica, forma corcho (primero piel amarilla lisa, luego marrón), engrosa sus paredes y acumula <b>almidón</b>, sobre todo tras la vendimia. Cuando caen las hojas ya es un <b>sarmiento</b>.</p>
+        <label for="agost"><b>Avance del agostamiento: <span id="agO">envero</span></b></label>
+        <input type="range" id="agost" min="0" max="100" value="0">
+        <div class="tscroll" style="margin-top:10px">
+          <table class="t"><tr><th>Pámpano</th><th>Sarmiento</th></tr>
+          <tr><td>Con yema terminal</td><td>Sin yema terminal</td></tr>
+          <tr><td>Porta estructuras en crecimiento</td><td>No porta estructuras en crecimiento</td></tr>
+          <tr><td>Verde, dorso rojizo</td><td>Marrón</td></tr>
+          <tr><td>Vellosidad</td><td>Corteza; almidón</td></tr>
+          <tr><td>Herbáceo</td><td>Lignificado</td></tr></table>
+        </div>
+      </div>
+      <div class="plate"><svg id="agSvg" viewBox="0 0 460 260" role="img" aria-label="Agostamiento del pámpano de la base al ápice"></svg></div>
+    </div>
+    <div class="grid2" style="margin-top:24px">
+      <div class="card">
+        <h3>Nudos, entrenudos y rangos</h3>
+        <p style="font-size:.93rem;margin-top:0">El tallo es una sucesión de <b>nudos</b> (zonas hinchadas donde se insertan yemas, hojas, inflorescencias y zarcillos) y <b>entrenudos</b>. El <b>rango</b> de un órgano es la posición de su nudo contando desde la base. Pasa el ratón o toca las barras.</p>
+        <div class="inter" id="inter"></div>
+        <p id="interTxt" style="font-weight:700;margin:10px 0 0">Toca un entrenudo.</p>
+        <p style="font-size:.85rem;color:var(--muted);margin:.4em 0 0">Diámetro del pámpano: ~1–2 cm en el centro; sección ligeramente elíptica. Zonas: basal, central y apical. El crecimiento en longitud ocurre en el <b>meristemo apical</b>, en la punta, desde donde se forman hojas y zarcillos.</p>
+      </div>
+      <div class="card">
+        <h3>Corte de un pámpano</h3>
+        <svg id="pampSec" viewBox="0 0 360 300" role="img" aria-label="Corte longitudinal de un pámpano con sus tejidos"></svg>
+        <p style="font-size:.88rem;margin:6px 0 0">En los nudos se insertan órganos <b>perennes</b> (yemas) y <b>caducos</b> (hojas, inflorescencias y zarcillos).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RAÍCES ============ -->
+<section id="raices" class="sec">
+  <div class="wrap">
+    <span class="tag">06 <i>·</i> Sistema radicular</span>
+    <h2>La mitad oculta de la cepa</h2>
+    <div class="grid3">
+      <div class="label"><div class="big">2–5 m</div>longitud habitual (máximo registrado: 15 m)</div>
+      <div class="label"><div class="big">10–60 t/ha</div>peso, muy variable</div>
+      <div class="label"><div class="big">~90 %</div>de las raíces en el primer metro de suelo</div>
+    </div>
+    <p style="margin-top:14px">Relación parte subterránea / parte aérea: <b>de 1 a 2/3</b>. En plantas multiplicadas por estaquilla el sistema es <b>adventicio, fasciculado y muy ramificado</b>. Son valores orientativos: la extensión real depende del suelo, el agua, los obstáculos y el material vegetal.</p>
+    <h3 style="margin-top:20px">Seis funciones</h3>
+    <div class="grid2">
+      <div class="grid3" id="funcs" style="grid-template-columns:repeat(3,1fr);gap:10px"></div>
+      <div>
+        <div class="card" id="funcTxt"></div>
+        <div class="card" style="margin-top:12px">
+          <b>Prueba:</b> ¿y si el suelo se encharca?
+          <div class="seg" id="encharca"><button data-e="0" class="on">Suelo aireado</button><button data-e="1">💧 Suelo encharcado</button></div>
+          <p id="encTxt" style="margin:0;font-weight:700"></p>
+        </div>
+      </div>
+    </div>
+    <h3 style="margin-top:28px">Origen de las raíces</h3>
+    <div class="grid2">
+      <div class="plate"><svg id="origenSvg" viewBox="0 0 460 280" role="img" aria-label="Raíz de semilla frente a raíces adventicias de estaquilla"></svg><div class="row" style="padding:8px"><button class="btn g sm" id="origenBtn">🌱 Hacer crecer</button></div></div>
+      <div>
+        <div class="card"><span class="pill o">De semilla</span><p style="margin:.4em 0 0">La <b>radícula</b> del embrión forma una <b>raíz principal pivotante</b>, de la que salen secundarias y terciarias, que ganan importancia con los años; la pivotante acaba atrofiándose y aparecen adventicias. Se usa en <b>mejora genética</b> y para obtener nuevas variedades.</p></div>
+        <div class="card" style="margin-top:12px"><span class="pill">Adventicias (estaquilla)</span><p style="margin:.4em 0 0">Nacen de los <b>nudos del tallo</b> al multiplicar por estaquillado. Pueden ser <b>aéreas</b> (zonas tropicales y húmedas, invernaderos) o <b>subterráneas</b> (lo más frecuente). Primero 3–6 raíces primarias exploran en superficie; después, secundarias en profundidad.</p></div>
+        <div class="note">«Adventicia» indica <b>dónde nace</b> la raíz, no que sea anormal.</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:20px">
+      <h3>Jerarquía y cabellera radicular</h3>
+      <p style="margin:0">Primarias → secundarias → terciarias → raicillas → <b>pelos absorbentes</b>. Las raíces gruesas dan <b>soporte, conducción y reserva</b>; las finas y jóvenes, <b>absorción</b>. La <b>cabellera radicular</b> (raicillas finas y pelos absorbentes) se <b>renueva cada año</b>. Los pelos absorbentes son prolongaciones microscópicas de células epidérmicas y <b>no son lo mismo que las raicillas</b> visibles.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SIMULADOR ============ -->
+<section id="simulador" class="sec">
+  <div class="wrap">
+    <span class="tag">07 <i>·</i> Laboratorio de raíces</span>
+    <h2>¿De qué depende la extensión de las raíces?</h2>
+    <p class="lead">Cambia los factores y observa cómo crece el sistema radicular. El contador calcula qué parte de las raíces queda en el primer metro.</p>
+    <div class="grid2">
+      <div>
+        <div class="ctrl">
+          <div><label for="fSuelo">1 · Condiciones del suelo</label><select id="fSuelo"><option value="libre">Suelo profundo y suelto</option><option value="compacta">Capa compacta a 0,6 m</option><option value="freatico">Nivel freático alto (1 m)</option><option value="roca">Roca madre a 0,8 m</option><option value="fertil">Suelo fértil</option></select></div>
+          <div><label for="fMant">2 · Mantenimiento del suelo</label><select id="fMant"><option value="no">Sin labores</option><option value="laboreo">Laboreo superficial</option><option value="cubierta">Cubierta vegetal</option></select></div>
+          <div><label for="fClima">3 · Clima</label><select id="fClima"><option value="hum">Húmedo</option><option value="seco">Seco</option></select></div>
+          <div><label for="fMarco">4 · Marco de plantación</label><select id="fMarco"><option value="amplio">Amplio</option><option value="apretado">Apretado</option></select></div>
+          <div><label for="fEdad">6 · Edad</label><select id="fEdad"><option value="juv">Juvenil (hasta 7–8 años)</option><option value="adu" selected>Adulto (hasta 40–45 años)</option><option value="sen">Senectud</option></select></div>
+          <div><label for="fAng">5 · Genética: ángulo geotrópico <span id="angO">40</span>º</label><input type="range" id="fAng" min="10" max="80" value="40"></div>
+        </div>
+        <div class="chk"><label><input type="checkbox" id="tAgua"> 💧 Zona húmeda (hidrotropismo)</label><label><input type="checkbox" id="tNut"> 🧪 Zona rica en nutrientes (quimiotropismo)</label></div>
+        <div class="card" style="margin-top:12px" id="simTxt"></div>
+      </div>
+      <div class="plate">
+        <svg id="sim" viewBox="0 0 480 420" role="img" aria-label="Simulación del crecimiento del sistema radicular"></svg>
+        <div class="row" style="padding:8px;justify-content:space-between"><div><span class="big" id="pct" style="font-size:1.6rem">—</span> <span style="font-weight:700;font-size:.9rem">en el primer metro</span></div><button class="btn sm g" id="simGo">🔄 Volver a crecer</button></div>
+      </div>
+    </div>
+    <div class="grid3" style="margin-top:20px">
+      <div class="card"><h3>⬇️ Geotropismo positivo</h3><p style="margin:0;font-size:.93rem">Sin obstáculos, las raíces tienden a profundizar. El <b>ángulo geotrópico</b> (entre raíces principales y la vertical) es un carácter genético.</p></div>
+      <div class="card"><h3>💧 Hidrotropismo</h3><p style="margin:0;font-size:.93rem">Las raíces se desplazan hacia zonas con más humedad.</p></div>
+      <div class="card"><h3>🧪 Quimiotropismo</h3><p style="margin:0;font-size:.93rem">Las raíces se desplazan hacia zonas con más nutrientes.</p></div>
+    </div>
+    <div class="note lz">🏝️ El picón cambia las condiciones de la superficie, pero las raíces se desarrollan según la profundidad y características del <b>suelo que hay debajo</b>: una capa de picón no permite deducir por sí sola la profundidad de las raíces. Saber dónde están las raíces activas ayuda a diseñar el <b>riego</b>.</div>
+  </div>
+</section>
+
+<!-- ============ ZONAS ============ -->
+<section id="zonas" class="sec">
+  <div class="wrap">
+    <span class="tag">08 <i>·</i> La punta de la raíz</span>
+    <h2>Las cinco zonas de una raíz joven</h2>
+    <div class="grid2">
+      <div class="plate"><svg id="tipSvg" viewBox="0 0 300 460" role="img" aria-label="Zonas de una raíz joven"></svg><div class="row" style="padding:8px"><button class="btn sm g" id="tipGrow">⬇️ Crecer</button></div></div>
+      <div>
+        <div class="card" id="tipTxt"></div>
+        <div class="card" style="margin-top:12px">
+          <h3>🎯 Reto: ordénalas desde el ápice hacia atrás</h3>
+          <div class="zone-order" id="zOrder"></div>
+          <p id="zMsg" style="font-weight:700;margin:10px 0 0"></p>
+        </div>
+        <div class="note">La raíz no crece estirándose entera: crece <b>cerca del ápice</b>, por división y alargamiento celular. Los pelos absorbentes no están en la punta (protegida por la cofia) sino más atrás, en la zona pilífera.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MICROSCOPIO ============ -->
+<section id="microscopio" class="sec">
+  <div class="wrap">
+    <span class="tag">09 <i>·</i> Al microscopio</span>
+    <h2>Anatomía primaria: corte transversal de una raíz joven</h2>
+    <p class="lead">Se distinguen la <b>corteza</b> (cilindro cortical) y el <b>cilindro central</b>. Pulsa cada tejido o activa el recorrido del agua.</p>
+    <div class="grid2">
+      <div class="plate" style="background:#1d1a1f"><svg id="secSvg" viewBox="0 0 420 420" role="img" aria-label="Corte transversal de una raíz joven con sus tejidos"></svg></div>
+      <div>
+        <div class="card" id="secTxt"></div>
+        <div class="row" style="margin-top:12px"><button class="btn sm" id="waterBtn">💧 Recorrido del agua</button></div>
+        <div class="note" style="margin-top:14px"><b>Xilema</b>: conduce agua y minerales. <b>Floema</b>: transporta sustancias orgánicas entre órganos fuente y sumidero, sin un único sentido fijo en toda la planta.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECUNDARIA ============ -->
+<section id="secundaria" class="sec">
+  <div class="wrap">
+    <span class="tag">10 <i>·</i> Crecimiento secundario</span>
+    <h2>Cuando la raíz engorda</h2>
+    <p class="lead"><b>Crecimiento primario</b> = aumento de longitud. <b>Crecimiento secundario</b> = aumento de diámetro, gracias a los meristemos laterales. Mueve los años.</p>
+    <div class="grid2">
+      <div>
+        <label for="anios"><b>Edad de la raíz: <span id="anO">0</span> años</b></label>
+        <input type="range" id="anios" min="0" max="6" value="0">
+        <div class="tscroll" style="margin-top:10px"><table class="t">
+          <tr><th>Concepto</th><th>Qué produce o representa</th></tr>
+          <tr><td><b>Cambium vascular</b></td><td>Xilema secundario hacia dentro; floema secundario hacia fuera.</td></tr>
+          <tr><td><b>Felógeno</b></td><td>Súber hacia fuera y felodermis hacia dentro.</td></tr>
+          <tr><td><b>Peridermis</b></td><td>Cubierta protectora secundaria (súber + felógeno + felodermis).</td></tr>
+          <tr><td><b>Ritidoma</b></td><td>Tejidos externos muertos que se acumulan y se exfolian.</td></tr>
+        </table></div>
+        <p style="margin-top:12px">El resultado: más capacidad de <b>conducción, soporte y reserva</b>. Pueden formarse anillos cuya interpretación depende de las condiciones de crecimiento.</p>
+      </div>
+      <div class="plate" style="background:#1d1a1f"><svg id="sec2Svg" viewBox="0 0 420 420" role="img" aria-label="Crecimiento secundario de una raíz"></svg></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FRANCA / INJERTADA ============ -->
+<section id="franca" class="sec">
+  <div class="wrap">
+    <span class="tag">11 <i>·</i> Vid franca y vid injertada</span>
+    <h2>¿De quién son las raíces?</h2>
+    <div class="grid2">
+      <div>
+        <div class="seg" id="frSeg"><button data-f="0" class="on">Vid franca</button><button data-f="1">Vid injertada</button></div>
+        <div class="card" id="frTxt"></div>
+        <div class="note lz">🏝️ Para investigar: ¿por qué en Lanzarote hay vides francas y en muchas otras regiones predomina el injerto? La respuesta lleva a la historia de la <b>filoxera</b>.</div>
+      </div>
+      <div class="plate"><svg id="frSvg" viewBox="0 0 360 360" role="img" aria-label="Comparación de vid franca e injertada"></svg></div>
+    </div>
+    <div class="grid2" style="margin-top:24px">
+      <div class="card sorter" id="sorter3"></div>
+      <div class="card"><h3>Morfología y anatomía se complementan</h3><p style="margin:0">Identificar una raíz y describir su forma es <b>morfología</b> («¿qué forma tiene y qué partes se distinguen?»). Observar el xilema en un corte de esa misma raíz es <b>anatomía</b> («¿qué tejidos contiene y cómo se organizan?»).</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CASO ============ -->
+<section id="caso" class="sec">
+  <div class="wrap">
+    <span class="tag">12 <i>·</i> Caso práctico</span>
+    <h2>Diagnóstico agronómico</h2>
+    <div class="grid2">
+      <div class="label">
+        <p style="margin-top:0"><b style="color:var(--ink)">En una finca</b>, varias cepas presentan <b>poco crecimiento</b>, <b>amarilleamiento de las hojas</b> y el agua se infiltra mal por una <b>capa compactada</b>.</p>
+        <p style="margin:0">Antes de decidir el manejo, ¿qué examinarías del sistema radicular? Marca tus propuestas y pulsa <b>Revisar</b>.</p>
+      </div>
+      <div>
+        <div class="cases" id="cases"></div>
+        <button class="btn s" id="caseBtn" style="margin-top:12px">Revisar</button>
+        <p id="caseMsg" style="font-weight:700;margin:10px 0 0"></p>
+      </div>
+    </div>
+    <p style="font-size:.82rem;color:var(--muted);margin-top:12px">Actividad de razonamiento: las propuestas son orientativas y no sustituyen una evaluación de campo.</p>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section id="quiz" class="sec">
+  <div class="wrap">
+    <span class="tag">13 <i>·</i> Autoevaluación</span>
+    <h2>Pon a prueba lo aprendido</h2>
+    <div class="quiz card" id="quizBox"></div>
+  </div>
+</section>
+
+<!-- ============ GLOSARIO ============ -->
+<section id="glosario" class="sec">
+  <div class="wrap">
+    <span class="tag">14 <i>·</i> Glosario imprescindible</span>
+    <h2>Vocabulario de la UT3</h2>
+    <p>Pulsa cada etiqueta para ver la definición.</p>
+    <div class="flips" id="flips"></div>
+    <div class="card" style="margin-top:22px">
+      <h3>Cinco ideas esenciales</h3>
+      <ol style="margin:0;padding-left:1.2em">
+        <li>Una cepa tiene órganos subterráneos y aéreos conectados.</li>
+        <li>Las raíces anclan, absorben, conducen, respiran, almacenan y sintetizan sustancias.</li>
+        <li>Las raíces de semilla son al principio pivotantes; las de estaquilla, adventicias.</li>
+        <li>Las raíces jóvenes y los pelos absorbentes de la zona pilífera son esenciales para captar agua y nutrientes.</li>
+        <li>La raíz tiene tejidos primarios y con la edad puede desarrollar crecimiento secundario.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<footer><img src="data:image/webp;base64,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" alt="CIFP Zonzamas" style="height:56px;width:auto;display:block;margin:0 auto 8px"><b style="color:var(--ink)">CIFP Zonzamas · Curso 2026/27</b><br>Lección interactiva · Módulo de Viticultura · UT3 Anatomía y morfología de la vid.<br>Basada en los apuntes y la presentación de la unidad.</footer>
+
+<script>
+(function(){
+"use strict";
+const $=(s,c=document)=>c.querySelector(s),$$=(s,c=document)=>[...c.querySelectorAll(s)];
+function segInit(sel,cb){$$(sel+' button').forEach(b=>b.addEventListener('click',()=>{$$(sel+' button').forEach(x=>x.classList.toggle('on',x===b));cb(b)}))}
+function rng(seed){let s=seed>>>0||1;return()=>{s=(s*1664525+1013904223)>>>0;return s/4294967296}}
+const LEAF='M0,0 C-12,-4 -22,-16 -15,-28 C-8,-25 -7,-32 0,-37 C7,-32 8,-25 15,-28 C22,-16 12,-4 0,0Z';
+const INK='#2a2622',SEP='#7a5a36',SAF='#b8325a',FAST='#2f7d4f',AG='#2c6fa8',ORO='#d4a23a';
+
+/* navegación */
+const links=$$('#topnav a');
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id));const on=links.find(a=>a.classList.contains('on'));if(on)on.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'})}}),{rootMargin:'-45% 0px -50% 0px'});
+$$('section.sec').forEach(s=>io.observe(s));
+addEventListener('scroll',()=>{const h=document.documentElement;$('#prog').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'},{passive:true});
+
+/* raíces procedurales */
+function roots(x,y,opt){const r=rng(opt.seed||7);let o='';const segs=[];
+  function grow(px,py,ang,len,w,lvl){let cx=px,cy=py,a=ang,d=`M${cx.toFixed(1)},${cy.toFixed(1)}`;const steps=Math.max(3,Math.round(len/8));
+    for(let i=0;i<steps;i++){a+=(r()-.5)*.35;if(opt.down)a+=(Math.PI/2-a)*opt.down*.05;
+      if(opt.attr)opt.attr.forEach(t=>{const dx=t[0]-cx,dy=t[1]-cy,dist=Math.hypot(dx,dy);if(dist<170){const ta=Math.atan2(dy,dx);a+=Math.sin(ta-a)*t[2]*(1-dist/170)}});
+      let nx=cx+Math.cos(a)*8,ny=cy+Math.sin(a)*8;
+      if(opt.floor&&ny>opt.floor){ny=opt.floor-(r()*2);a=a>Math.PI/2?Math.PI-.05:.05}
+      if(opt.left!=null&&nx<opt.left){nx=opt.left;a=Math.PI/2}if(opt.right!=null&&nx>opt.right){nx=opt.right;a=Math.PI/2}
+      if(ny<opt.top+2){ny=opt.top+2;a=Math.abs(a)}
+      const cut=opt.cut&&ny<opt.top+opt.cut&&lvl>0;
+      segs.push([nx,ny]);
+      if(!cut)d+=`L${nx.toFixed(1)},${ny.toFixed(1)}`;else d+=`M${nx.toFixed(1)},${ny.toFixed(1)}`;
+      cx=nx;cy=ny;
+      if(lvl<opt.levels&&r()<opt.branch*(1-lvl*.15)){const side=r()<.5?-1:1;grow(cx,cy,a+side*(.6+r()*.7),len*(.42+r()*.25),w*.6,lvl+1)}}
+    o+=`<path d="${d}" stroke="${opt.color||'#c08550'}" stroke-width="${Math.max(.6,w).toFixed(1)}" fill="none" stroke-linecap="round"/>`}
+  const n=opt.n||5;for(let i=0;i<n;i++){const t=n===1?0:i/(n-1);const ang=Math.PI/2+(t-.5)*2*opt.spread;grow(x,y,ang,opt.len*(.8+r()*.4),opt.w||5,0)}
+  return {svg:o,segs}}
+
+/* ---------- portada ---------- */
+(function(){
+  const S=$('#heroSvg');const R=roots(230,300,{seed:3,n:6,spread:1.15,len:150,levels:3,branch:.28,down:.6,top:300,w:4.5,color:SEP});
+  let o=`<rect width="460" height="500" fill="#fffdf8"/><g stroke="${SEP}" stroke-width=".6" opacity=".25">${[...Array(12)].map((_,i)=>`<line x1="0" y1="${i*42}" x2="460" y2="${i*42}"/>`).join('')}</g>`;
+  o+=`<line x1="20" y1="300" x2="440" y2="300" stroke="${INK}" stroke-width="1.5" stroke-dasharray="6 4"/>`;
+  o+=`<g class="draw">${R.svg.replace(/stroke-linecap/g,'style="animation-delay:.8s" stroke-linecap')}</g>`;
+  o+=`<g class="draw" fill="none" stroke="${INK}" stroke-linecap="round"><path d="M224,300 C220,260 226,230 230,205 M236,300 C240,260 236,230 234,205" stroke-width="3"/><path d="M230,205 C200,190 170,180 130,170" stroke-width="7"/><path d="M234,205 C270,188 300,176 340,168" stroke-width="7"/><path d="M130,170 C120,140 110,110 95,80" stroke-width="3"/><path d="M340,168 C350,130 365,100 385,70" stroke-width="3"/></g>`;
+  [[95,82,-30,1.4],[120,120,-60,1.1],[385,72,30,1.4],[352,118,60,1.1]].forEach(([x,y,a,s],i)=>o+=`<path class="fadein" style="animation-delay:${1.6+i*.15}s" d="${LEAF}" transform="translate(${x},${y}) rotate(${a}) scale(${s})" fill="#cfe3b5" stroke="${INK}" stroke-width="1"/>`);
+  let b='';[5,4,4,3,2,1].forEach((n,i)=>{for(let j=0;j<n;j++)b+=`<circle cx="${350+(j-(n-1)/2)*12}" cy="${150+i*11}" r="6" fill="#e9d7f0" stroke="${INK}" stroke-width=".9"/>`});o+=`<g class="fadein" style="animation-delay:2.2s">${b}</g>`;
+  o+=`<g class="fadein" style="animation-delay:2.4s" font-size="11" font-style="italic" fill="${INK}"><text x="22" y="292">superficie del suelo</text><text x="260" y="40" font-family="Fraunces,serif" font-size="16">Vitis vinifera L.</text><text x="260" y="58">Vitaceae · lám. 3</text></g>`;
+  o+=`<g id="lensG" class="lens" style="transform-origin:300px 400px;transform:scale(0);opacity:0"><circle cx="300" cy="400" r="80" fill="#1d1a1f" stroke="${INK}" stroke-width="8"/><g id="lensIn"></g><line x1="356" y1="456" x2="410" y2="490" stroke="${INK}" stroke-width="12" stroke-linecap="round"/></g>`;
+  S.innerHTML=o;
+  $('#lensIn').innerHTML=crossSection(300,400,.5,false);
+  let on=false;$('#lensBtn').onclick=()=>{on=!on;const g=$('#lensG');g.style.transform=on?'scale(1)':'scale(0)';g.style.opacity=on?1:0;$('#lensBtn').textContent=on?'🔬 Cerrar el microscopio':'🔬 Mirar la raíz al microscopio'};
+})();
+
+/* corte transversal (usado en portada y en anatomía) */
+function crossSection(cx,cy,k,ids){const r=rng(9);const id=n=>ids?`class="tis" data-t="${n}"`:'';let o='';
+  o+=`<g ${id('epi')}><circle cx="${cx}" cy="${cy}" r="${150*k}" fill="#e7d9b8"/>`;for(let i=0;i<46;i++){const a=i/46*Math.PI*2,L=(i%3===0)?28:0;if(L)o+=`<line x1="${cx+Math.cos(a)*150*k}" y1="${cy+Math.sin(a)*150*k}" x2="${cx+Math.cos(a)*(150+L)*k}" y2="${cy+Math.sin(a)*(150+L)*k}" stroke="#e7d9b8" stroke-width="${3*k}" stroke-linecap="round"/>`}o+='</g>';
+  o+=`<circle ${id('exo')} cx="${cx}" cy="${cy}" r="${142*k}" fill="#c9a26b"/>`;
+  o+=`<g ${id('cor')}><circle cx="${cx}" cy="${cy}" r="${135*k}" fill="#f1e6cc"/>`;for(let ring=0;ring<6;ring++){const rr=(80+ring*10)*k,n=Math.round(rr*2*Math.PI/(16*k));for(let i=0;i<n;i++){const a=i/n*Math.PI*2+ring*.2;o+=`<circle cx="${(cx+Math.cos(a)*rr).toFixed(1)}" cy="${(cy+Math.sin(a)*rr).toFixed(1)}" r="${(6.5+r()*1.5)*k}" fill="none" stroke="#c9b48a" stroke-width="${1*k}"/>`}}o+='</g>';
+  o+=`<g ${id('endo')}><circle cx="${cx}" cy="${cy}" r="${72*k}" fill="#d98aa6"/>`;for(let i=0;i<34;i++){const a=i/34*Math.PI*2;o+=`<circle cx="${cx+Math.cos(a)*72*k}" cy="${cy+Math.sin(a)*72*k}" r="${1.8*k}" fill="#7a1534"/>`}o+='</g>';
+  o+=`<circle ${id('peri')} cx="${cx}" cy="${cy}" r="${65*k}" fill="#bfe0c6"/>`;
+  o+=`<circle ${id('med')} cx="${cx}" cy="${cy}" r="${58*k}" fill="#efe8da"/>`;
+  const arms=5;let star='';for(let i=0;i<arms*2;i++){const a=i/(arms*2)*Math.PI*2-Math.PI/2,rr=i%2?20*k:56*k;star+=(i?'L':'M')+(cx+Math.cos(a)*rr).toFixed(1)+','+(cy+Math.sin(a)*rr).toFixed(1)}
+  o+=`<g ${id('xil')}><path d="${star}Z" fill="${SAF}"/>`;for(let i=0;i<arms;i++){const a=i/arms*Math.PI*2-Math.PI/2;[22,34,46].forEach(rr=>o+=`<circle cx="${cx+Math.cos(a)*rr*k}" cy="${cy+Math.sin(a)*rr*k}" r="${(3+rr/16)*k}" fill="#fbe4ec" stroke="#7a1534" stroke-width="${k}"/>`)}o+='</g>';
+  o+=`<g ${id('flo')}>`;for(let i=0;i<arms;i++){const a=(i+.5)/arms*Math.PI*2-Math.PI/2;o+=`<ellipse cx="${cx+Math.cos(a)*44*k}" cy="${cy+Math.sin(a)*44*k}" rx="${11*k}" ry="${8*k}" transform="rotate(${a*180/Math.PI+90} ${cx+Math.cos(a)*44*k} ${cy+Math.sin(a)*44*k})" fill="${FAST}"/>`}o+='</g>';
+  o+=`<circle ${id('med')} cx="${cx}" cy="${cy}" r="${12*k}" fill="#efe8da"/>`;
+  return o}
+
+/* ---------- taxonomía ---------- */
+(function(){const T=[['Reino','Plantae','Seres vivos vegetales.'],['Clado','Angiospermas','Plantas que producen <b>flores y frutos</b>.'],['Clado','Eudicotiledóneas','Un gran grupo botánico de angiospermas.'],['Familia','Vitáceas (Vitaceae)','Familia de la vid.'],['Género','Vitis','Incluye la vid europea y las especies americanas usadas como portainjertos.'],['Especie','Vitis vinifera L.','La vid cultivada. <b>L.</b> indica que la describió Linneo.'],['¡Ojo!','Malvasía Volcánica, Listán Negro…','Son <b>variedades</b> cultivadas, <b>no especies</b> distintas: todas son <em class="lat">Vitis vinifera</em>.']];
+  $('#taxo').innerHTML=T.map((t,i)=>`<button class="tx ${i===6?'trap':''}" data-i="${i}" style="margin-left:${Math.min(i,5)*10}px"><span>${t[1]}</span><small>${t[0]}</small></button>`).join('');
+  $$('#taxo .tx').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;$$('#taxo .tx').forEach((x,j)=>x.classList.toggle('on',j<=i&&j!==6||j===i));$('#taxoTxt').innerHTML=`<b style="color:var(--ink)">${T[i][0]}: ${T[i][1]}</b><br>${T[i][2]}`});
+  $$('#taxo .tx')[5].click();})();
+
+/* ---------- clasificador genérico ---------- */
+function sorter(el,title,cats,items){let i=0,ok=0;const its=items.slice().sort(()=>Math.random()-.5);
+  function render(){if(i>=its.length){el.innerHTML=`<h3>${title}</h3><div class="big" style="color:var(--safra)">${ok} / ${its.length}</div><p>${ok===its.length?'🏆 ¡Perfecto!':'Repasa los que fallaste y vuelve a intentarlo.'}</p><button class="btn sm">↺ Repetir</button>`;el.querySelector('button').onclick=()=>{i=0;ok=0;its.sort(()=>Math.random()-.5);render()};return}
+    el.innerHTML=`<h3>${title}</h3><div class="bar"><div style="width:${i/its.length*100}%"></div></div><div class="item">${its[i][0]}</div><div class="opts">${cats.map((c,k)=>`<button class="btn sm ${k?'s':'g'}" data-k="${k}">${c}</button>`).join('')}</div><p class="res"></p>`;
+    $$('.opts button',el).forEach(b=>b.onclick=()=>{const good=+b.dataset.k===its[i][1];if(good)ok++;$$('.opts button',el).forEach(x=>x.disabled=true);el.querySelector('.res').innerHTML=(good?'✅ ':'❌ ')+(its[i][2]||`Es <b>${cats[its[i][1]]}</b>.`);setTimeout(()=>{i++;render()},good?900:1900)})}
+  render()}
+
+/* ---------- cepa ---------- */
+(function(){
+  const S=$('#cepaSvg');
+  const P=[
+   ['sub',230,360,'Raíces','Parte subterránea: sistema radicular.','<b>Anclaje, absorción, conducción, respiración, reserva y síntesis</b> de hormonas.'],
+   ['aer',230,322,'Cuello','Unión del tronco con la raíz, a la altura del suelo.','Zona de paso de la savia entre raíz y parte aérea.'],
+   ['aer',230,262,'Tronco','Eje leñoso permanente (madera vieja).','<b>Soporte, conducción</b> y <b>almacenamiento de reservas</b>.'],
+   ['aer',160,198,'Brazos','Ramificaciones leñosas permanentes del tronco.','Conducen savia y <b>reparten la vegetación y los frutos</b> en el espacio.'],
+   ['aer',112,170,'Pulgar','Tramo corto de sarmiento dejado en la poda (2–3 yemas).','Origina los <b>pámpanos productivos</b> del año.'],
+   ['aer',390,200,'Vara','Tramo largo de sarmiento conservado en la poda.','Porta más yemas que darán <b>pámpanos y racimos</b>.'],
+   ['aer',88,92,'Pámpano','Brote verde del año (cuando se lignifica: sarmiento).','<b>Sostiene hojas y racimos</b> y renueva la estructura productiva.'],
+   ['aer',150,62,'Hoja','Órgano laminar del pámpano.','<b>Fotosíntesis</b>, <b>transpiración</b> e intercambio de gases.'],
+   ['aer',96,135,'Yema','En la axila de la hoja.','<b>Origina brotes</b> y puede albergar estructuras reproductivas.'],
+   ['aer',48,58,'Zarcillo','Órgano filamentoso, opuesto a la hoja.','<b>Trepar y sujetarse</b> a un soporte.'],
+   ['aer',128,128,'Racimo','Conjunto de bayas sobre el raquis.','<b>Agrupa las bayas</b> que se originan de las flores.']];
+  const R=roots(230,330,{seed:5,n:7,spread:1.2,len:120,levels:3,branch:.3,down:.5,top:330,w:4.5,color:'#c08550'});
+  let o=`<rect width="460" height="520" fill="#fffdf8"/><g class="hl" data-p="sub"><rect y="330" width="460" height="190" fill="#e9dcc0"/>${R.svg}</g>`;
+  o+=`<g class="hl" data-p="aer"><path d="M222,330 C218,290 224,250 226,215 L236,215 C240,250 242,290 240,330Z" fill="#6b4423" stroke="${INK}" stroke-width="1.5"/>`;
+  o+=`<path d="M228,218 C200,205 165,195 120,182" stroke="#6b4423" stroke-width="12" fill="none" stroke-linecap="round"/><path d="M234,218 C270,205 320,198 370,200" stroke="#6b4423" stroke-width="12" fill="none" stroke-linecap="round"/>`;
+  o+=`<path d="M120,182 l-12,-10" stroke="#8a5a2b" stroke-width="6" stroke-linecap="round"/><circle cx="112" cy="174" r="3.5" fill="#5b3a1e"/><circle cx="118" cy="179" r="3.5" fill="#5b3a1e"/>`;
+  o+=`<path d="M370,200 C400,190 420,200 430,230" stroke="#8a5a2b" stroke-width="5" fill="none"/>${[[395,193],[414,200],[426,216]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3.5" fill="#5b3a1e"/>`).join('')}`;
+  o+=`<path d="M108,172 C100,140 92,110 80,70" stroke="#5c8f2b" stroke-width="4" fill="none"/>`;
+  [[150,62,40,1.3],[70,110,-60,1.1],[110,96,50,.9]].forEach(([x,y,a,s])=>o+=`<path d="${LEAF}" transform="translate(${x},${y}) rotate(${a}) scale(${s})" fill="#8fc45a" stroke="#3f6e22"/>`);
+  o+=`<path d="M85,85 C75,80 60,75 50,60 q-6,-8 2,-12" stroke="#7cb342" stroke-width="2" fill="none"/>`;
+  let b='';[4,3,3,2,1].forEach((n,i)=>{for(let j=0;j<n;j++)b+=`<circle cx="${128+(j-(n-1)/2)*11}" cy="${126+i*10}" r="5.5" fill="#b77fbe" stroke="${INK}" stroke-width=".6"/>`});o+=`<path d="M100,140 Q115,115 128,120" stroke="#6b5a2a" stroke-width="2" fill="none"/>${b}<circle cx="96" cy="135" r="3.5" fill="#5b3a1e"/>`;
+  o+=`<path d="M398,193 C402,160 400,130 410,100" stroke="#5c8f2b" stroke-width="3" fill="none"/><path d="${LEAF}" transform="translate(410,100) scale(.9)" fill="#8fc45a" stroke="#3f6e22"/></g>`;
+  o+=`<line x1="10" y1="330" x2="450" y2="330" stroke="${INK}" stroke-width="1.5" stroke-dasharray="6 4"/>`;
+  P.forEach((p,i)=>o+=`<g class="hot" data-i="${i}" tabindex="0" role="button" aria-label="${p[3]}"><circle cx="${p[1]}" cy="${p[2]}" r="10" fill="${INK}" stroke="#fff" stroke-width="2"/><text x="${p[1]}" y="${p[2]+4}" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" style="pointer-events:none">${i+1}</text></g>`);
+  S.innerHTML=o;let mode='n',cur=0;
+  function show(i){cur=i;$$('#cepaSvg .hot').forEach(h=>h.classList.toggle('on',+h.dataset.i===i));const p=P[i];
+    $('#cepaTxt').innerHTML=`<span class="pill ${p[0]==='sub'?'o':''}">${p[0]==='sub'?'Parte subterránea':'Parte aérea'}</span><h3 style="margin-top:6px">${i+1} · ${p[3]}</h3><p style="margin:0">${mode==='n'?p[4]:'⚙️ '+p[5]}</p><div class="row" style="margin-top:10px"><button class="btn ghost sm" id="cP">←</button><button class="btn sm" id="cN">Siguiente →</button></div>`;
+    $('#cP').onclick=()=>show((i+P.length-1)%P.length);$('#cN').onclick=()=>show((i+1)%P.length)}
+  $$('#cepaSvg .hot').forEach(h=>{h.onclick=()=>show(+h.dataset.i);h.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(+h.dataset.i)}}});
+  segInit('#cepaMode',b=>{mode=b.dataset.m;show(cur)});
+  segInit('#cepaPart',b=>{const p=b.dataset.p;$$('#cepaSvg .hl').forEach(g=>g.classList.toggle('dim',p!=='all'&&g.dataset.p!==p));$$('#cepaSvg .hot').forEach(h=>h.classList.toggle('dim',p!=='all'&&P[+h.dataset.i][0]!==p))});
+  show(2);
+  sorter($('#sorter1'),'🎯 ¿Perdura más de un año o es del año?',['> 1 año','1 año'],[['Tronco',0],['Brazos',0],['Sarmiento',0,'El sarmiento es madera que se conserva (o se poda) en invierno: más de un año.'],['Pulgar',0],['Hojas',1],['Yemas',1,'Las yemas se forman en el ciclo del año.'],['Flor',1],['Fruto',1]]);
+})();
+
+/* ---------- tronco ---------- */
+(function(){
+  function draw(){const t=+$('#altura').value,H=110+t*190,top=380-H;let o=`<rect width="420" height="420" fill="#fffdf8"/><rect y="380" width="420" height="40" fill="#e9dcc0"/><line x1="0" y1="380" x2="420" y2="380" stroke="${INK}" stroke-dasharray="6 4"/>`;
+    o+=`<path d="M196,380 C190,${380-H*.4} 204,${top+H*.3} 198,${top} L222,${top} C216,${top+H*.3} 230,${380-H*.4} 224,380Z" fill="#6b4423" stroke="${INK}" stroke-width="1.5"/>`;
+    for(let y=top+14;y<370;y+=22)o+=`<path d="M${200+(y%3)},${y} l4,14 M${214-(y%4)},${y+6} l-3,12" stroke="#3f2612" stroke-width="1.4"/>`;
+    if(t<.5){o+=`<path d="M200,${top+4} C180,${top-30} 150,${top-50} 120,${top-60} M220,${top+4} C240,${top-30} 270,${top-50} 300,${top-60} M210,${top} C210,${top-30} 212,${top-50} 214,${top-70}" stroke="#6b4423" stroke-width="9" fill="none" stroke-linecap="round"/>`}
+    else{o+=`<path d="M200,${top+4} C160,${top-6} 100,${top-8} 40,${top-8} M220,${top+4} C260,${top-6} 320,${top-8} 380,${top-8}" stroke="#6b4423" stroke-width="9" fill="none" stroke-linecap="round"/><line x1="40" y1="${top-14}" x2="380" y2="${top-14}" stroke="${SEP}" stroke-width="2" stroke-dasharray="3 3"/>`}
+    const L=(y,txt,c)=>`<line x1="232" y1="${y}" x2="300" y2="${y}" stroke="${c}" stroke-width="1.5"/><circle cx="232" cy="${y}" r="4" fill="${c}"/><rect x="300" y="${y-11}" width="110" height="22" rx="4" fill="#fffdf8" stroke="${c}"/><text x="355" y="${y+4}" text-anchor="middle" font-size="12" font-weight="800" fill="${c}">${txt}</text>`;
+    o+=L(top+2,'Cabeza',SAF)+L(top+28,'Corona',SAF)+L(top+54,'Cruz',SAF)+L(366,'Cuello',FAST);
+    o+=`<g><line x1="40" y1="380" x2="40" y2="${top}" stroke="${INK}" stroke-width="1.5"/><text x="46" y="${(380+top)/2}" font-size="13" font-weight="800" fill="${INK}">${(t*1.2+.8).toFixed(1).replace('.',',')} m</text></g>`;
+    o+=`<text x="12" y="24" font-size="13" font-weight="800" fill="${INK}">${t<.5?'Vaso: tronco bajo':'Parral: tronco alto'}</text>`;
+    $('#troncoSvg').innerHTML=o}
+  $('#altura').addEventListener('input',draw);draw();
+})();
+
+/* ---------- brotes ---------- */
+(function(){
+  const B=[['chupon',90,300,'Chupón o espergura','Improductivo','Nace de la <b>madera vieja</b> (tronco o brazos). Consume savia y no trae cosecha: se suele eliminar (<b>espergura</b>).'],
+   ['nieto',300,96,'Nieto, feminela o hijuelo','Improductivo','Brota en la <b>axila de una hoja</b> del pámpano, en el mismo año. Sin cosecha o con poca y tardía (<b>racima</b>). Se puede eliminar (<b>desnietar</b>).'],
+   ['pamp',200,70,'Pámpano o ramo','Productivo','Brota de la <b>madera del año anterior</b> dejada en la poda (pulgar o vara). Porta hojas, zarcillos, inflorescencias y <b>racimos</b>: es lo que hay que potenciar.']];
+  let o=`<rect width="460" height="380" fill="#fffdf8"/><rect y="330" width="460" height="50" fill="#e9dcc0"/>`;
+  o+=`<path d="M60,330 C56,290 62,260 66,240 L82,240 C86,260 88,290 84,330Z" fill="#6b4423"/><path d="M74,242 C120,220 170,215 210,210" stroke="#6b4423" stroke-width="12" fill="none" stroke-linecap="round"/><path d="M210,210 l14,-8" stroke="#8a5a2b" stroke-width="7" stroke-linecap="round"/>`;
+  o+=`<g data-b="pamp" class="hl"><path d="M222,202 C224,160 230,120 250,70" stroke="#5c8f2b" stroke-width="4" fill="none"/>${[[236,150,-50],[244,110,40],[250,75,-20]].map(([x,y,a])=>`<path d="${LEAF}" transform="translate(${x},${y}) rotate(${a}) scale(1)" fill="#8fc45a" stroke="#3f6e22"/>`).join('')}`;
+  let b='';[4,3,3,2,1].forEach((n,i)=>{for(let j=0;j<n;j++)b+=`<circle cx="${212+(j-(n-1)/2)*11}" cy="${168+i*10}" r="5.5" fill="#b77fbe" stroke="${INK}" stroke-width=".6"/>`});o+=`<path d="M226,160 Q218,158 212,162" stroke="#6b5a2a" stroke-width="2" fill="none"/>${b}</g>`;
+  o+=`<g data-b="nieto"><path d="M244,112 C262,108 280,104 296,96" stroke="#9ccc65" stroke-width="2.5" fill="none"/><path d="${LEAF}" transform="translate(298,96) rotate(70) scale(.55)" fill="#b9dc7a" stroke="#3f6e22"/></g>`;
+  o+=`<g data-b="chupon"><path d="M64,300 C50,290 40,270 36,240" stroke="#9ccc65" stroke-width="3" fill="none"/><path d="${LEAF}" transform="translate(36,240) rotate(-20) scale(.7)" fill="#b9dc7a" stroke="#3f6e22"/></g>`;
+  B.forEach((x,i)=>o+=`<g class="hot" data-i="${i}" tabindex="0" role="button" aria-label="${x[3]}"><circle cx="${x[1]}" cy="${x[2]}" r="10" fill="${INK}" stroke="#fff" stroke-width="2"/><text x="${x[1]}" y="${x[2]+4}" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" style="pointer-events:none">${i+1}</text></g>`);
+  o+=`<text x="230" y="230" font-size="11" font-weight="800" fill="${SEP}">pulgar</text><text x="20" y="360" font-size="11" font-weight="800" fill="${SEP}">madera vieja</text>`;
+  $('#broteSvg').innerHTML=o;
+  function show(i){$$('#broteSvg .hot').forEach(h=>h.classList.toggle('on',+h.dataset.i===i));const x=B[i];$('#broteTxt').innerHTML=`<span class="pill ${x[4]==='Productivo'?'':'s'}">${x[4]}</span><h3 style="margin-top:6px">${x[3]}</h3><p style="margin:0">${x[5]}</p>`}
+  $$('#broteSvg .hot').forEach(h=>{h.onclick=()=>show(+h.dataset.i);h.onkeydown=e=>{if(e.key==='Enter'){show(+h.dataset.i)}}});show(2);
+  sorter($('#sorter2'),'🎯 ¿Productivo o improductivo?',['Productivo','Improductivo'],[['Chupón',1],['Nieto',1],['Pámpano de un pulgar',0],['Espergura',1],['Feminela',1],['Pámpano de una vara',0],['Hijuelo',1],['Ramo',0]]);
+  const M=[['a · Madera del año','El <b>pámpano</b>: desde que brota la yema hasta que tira la hoja. Un periodo de crecimiento.','#7cb342'],['b · Madera de 1 año','<b>Sarmientos</b> desde la caída de la hoja hasta que se desarrollan sus yemas. Periodo de reposo invernal.','#b98a4a'],['c · Madera de 2 años','Después de la brotación de sus yemas: segundo periodo de crecimiento. Soporta los pámpanos y sarmientos normales.','#8a5a2b'],['d · Madera vieja','Tallos de más de 2 años: tronco y brazos.','#4a2d16']];
+  function mad(k){let o=`<rect width="460" height="300" fill="#fffdf8"/>`;const seg=(d,c,w,i)=>`<path d="${d}" stroke="${c}" stroke-width="${w}" fill="none" stroke-linecap="round" opacity="${i===k?1:.28}"/>`;
+    o+=seg('M60,290 C56,240 64,200 70,170 C110,150 150,140 190,135','#4a2d16',14,3);
+    o+=seg('M190,135 C230,125 260,118 290,112','#8a5a2b',9,2);
+    o+=seg('M290,112 C320,100 345,90 370,80','#b98a4a',6,1);
+    o+=seg('M370,80 C390,60 405,40 420,20','#7cb342',4,0);
+    o+=`<path d="${LEAF}" transform="translate(408,44) rotate(50) scale(.9)" fill="#8fc45a" opacity="${k===0?1:.3}"/>`;
+    const lab=[[380,30,'del año'],[330,74,'de 1 año'],[240,108,'de 2 años'],[90,160,'vieja']];lab.forEach((l,i)=>o+=`<text x="${l[0]}" y="${l[1]}" font-size="12" font-weight="800" fill="${INK}" opacity="${3-i===k?1:.45}" text-anchor="end">${l[2]}</text>`);
+    $('#maderaSvg').innerHTML=o;$('#maderaTxt').innerHTML=`<h3 style="color:${M[k][2]}">${M[k][0]}</h3><p style="margin:0">${M[k][1]}</p>`}
+  segInit('#maderaSeg',b=>mad(+b.dataset.k));mad(0);
+})();
+
+/* ---------- pámpano ---------- */
+(function(){
+  function mix(a,b,t){const h=x=>[1,3,5].map(i=>parseInt(x.substr(i,2),16));const A=h(a),B=h(b);return '#'+A.map((v,i)=>Math.round(v+(B[i]-v)*t).toString(16).padStart(2,'0')).join('')}
+  function ag(){const v=+$('#agost').value;$('#agO').textContent=v<5?'envero':v<60?'agostando (de la base al ápice)':v<95?'tras la vendimia':'caída de la hoja: ¡sarmiento!';
+    let o=`<rect width="460" height="260" fill="#fffdf8"/><defs><linearGradient id="agG" x1="0" x2="1">`;const front=v/100*1.15;
+    for(let i=0;i<=10;i++){const p=i/10,t=Math.max(0,Math.min(1,(front-p)*4));o+=`<stop offset="${p}" stop-color="${mix('#6aa33a','#8a5a2b',t)}"/>`}
+    o+=`</linearGradient></defs><path d="M30,150 C140,140 280,120 420,90" stroke="url(#agG)" stroke-width="14" fill="none" stroke-linecap="round"/>`;
+    for(let i=1;i<9;i++){const x=30+i*44,y=150-i*6.5;o+=`<ellipse cx="${x}" cy="${y-1}" rx="5" ry="9" fill="rgba(0,0,0,.18)"/><circle cx="${x}" cy="${y-12}" r="4" fill="#5b3a1e"/>`;if(v<95)o+=`<path d="${LEAF}" transform="translate(${x},${y-8}) rotate(${i%2?30:-30}) scale(.75)" fill="${mix('#8fc45a','#d9a23a',Math.max(0,v-60)/40)}" opacity="${v>95?0:1}"/>`}
+    if(v<100)o+=`<circle cx="420" cy="88" r="5" fill="#9ccc65"/><text x="420" y="74" text-anchor="middle" font-size="10" font-weight="800" fill="${FAST}">ápice</text>`;
+    o+=`<text x="30" y="180" font-size="11" font-weight="800" fill="${SEP}">base</text>`;
+    o+=`<g transform="translate(60,200)"><rect width="340" height="40" rx="8" fill="#f6f0e1"/><text x="12" y="16" font-size="11" font-weight="800" fill="${INK}">Agua</text><rect x="70" y="8" width="${100-v*.5}" height="10" fill="${AG}"/><text x="12" y="34" font-size="11" font-weight="800" fill="${INK}">Almidón</text><rect x="70" y="26" width="${20+v*.9}" height="10" fill="${ORO}"/><text x="200" y="16" font-size="11" font-weight="800" fill="${INK}">Lignificación</text><rect x="200" y="22" width="${v*1.3}" height="12" fill="#8a5a2b"/></g>`;
+    $('#agSvg').innerHTML=o}
+  $('#agost').addEventListener('input',ag);ag();
+  const L=[];for(let i=1;i<=22;i++)L.push(i<=5?4+i*1.6:i<=15?12:12-(i-15)*1.3);
+  $('#inter').innerHTML=L.map((l,i)=>`<div data-i="${i+1}" tabindex="0" style="height:${l/13*100}%;background:${i<5?'#9ccc65':i<15?FAST:'#c9b04a'}"></div>`).join('');
+  $$('#inter div').forEach(d=>{const f=()=>{const i=+d.dataset.i;$('#interTxt').innerHTML=`Entrenudo de rango <b>${i}</b>: ${i<=5?'del 1.º al 5.º, longitud <b>creciente</b>':i<=15?'del 6.º al 15.º, longitud <b>constante</b>':'del 16.º al final, longitud <b>decreciente</b>'}.`};d.onmouseenter=f;d.onclick=f;d.onfocus=f});
+  let o=`<rect width="360" height="300" fill="#fffdf8"/>`;
+  o+=`<text x="180" y="18" text-anchor="middle" font-size="12" font-weight="800" fill="${INK}">entrenudo · nudo · entrenudo</text>`;
+  o+=`<rect x="20" y="30" width="320" height="90" rx="16" fill="#9ccc65"/><rect x="20" y="40" width="320" height="70" rx="12" fill="${FAST}"/><rect x="20" y="52" width="320" height="46" rx="8" fill="${SAF}"/><rect x="20" y="62" width="320" height="26" rx="6" fill="#efe8da"/><rect x="172" y="24" width="16" height="102" rx="6" fill="#c9b48a"/>`;
+  const lb=[['#9ccc65','Epidermis','protección'],[FAST,'Floema','transporte'],[SAF,'Xilema','sostén, transporte y reservas'],['#efe8da','Médula','relleno, poroso y ligero'],['#c9b48a','Diafragma','tabique entre entrenudos']];
+  lb.forEach((l,i)=>o+=`<rect x="20" y="${140+i*30}" width="18" height="18" rx="4" fill="${l[0]}" stroke="${INK}" stroke-width=".6"/><text x="46" y="${153+i*30}" font-size="12" fill="${INK}"><tspan font-weight="800">${l[1]}</tspan> · ${l[2]}</text>`);
+  $('#pampSec').innerHTML=o;
+})();
+
+/* ---------- funciones de la raíz ---------- */
+(function(){
+  const F=[['⚓','Anclaje','Estabiliza la cepa en el suelo; importante frente al viento.'],['💧','Absorción','Capta agua y elementos minerales de la solución del suelo.'],['⬆️','Conducción','Transporta la savia bruta hacia la parte aérea por el xilema.'],['🫁','Respiración','Las raíces vivas consumen oxígeno; el encharcamiento reduce la aireación.'],['🥔','Reserva','Acumula sustancias como el almidón, útiles para la brotación.'],['🧪','Síntesis','Produce hormonas de crecimiento: giberelinas, citoquininas…']];
+  $('#funcs').innerHTML=F.map((f,i)=>`<button class="tx" data-i="${i}" style="flex-direction:column;align-items:center;text-align:center;margin:0"><span style="font-size:1.6rem">${f[0]}</span><span>${f[1]}</span></button>`).join('');
+  $$('#funcs .tx').forEach(b=>b.onclick=()=>{$$('#funcs .tx').forEach(x=>x.classList.toggle('on',x===b));const f=F[+b.dataset.i];$('#funcTxt').innerHTML=`<h3>${f[0]} ${f[1]}</h3><p style="margin:0">${f[2]}</p>`});$$('#funcs .tx')[0].click();
+  segInit('#encharca',b=>$('#encTxt').innerHTML=b.dataset.e==='1'?'⚠️ Sin aire en los poros, se compromete sobre todo la <b>respiración</b> radicular, y con ella la absorción y el crecimiento.':'✅ Los poros tienen aire: las raíces respiran con normalidad.');$('#encTxt').innerHTML='✅ Los poros tienen aire: las raíces respiran con normalidad.';
+  function origen(g){let o=`<rect width="460" height="280" fill="#fffdf8"/><rect y="110" width="460" height="170" fill="#e9dcc0"/><line x1="230" y1="0" x2="230" y2="280" stroke="#fff" stroke-width="4"/><text x="115" y="22" text-anchor="middle" font-size="13" font-weight="800" fill="${INK}">De semilla</text><text x="345" y="22" text-anchor="middle" font-size="13" font-weight="800" fill="${INK}">De estaquilla</text>`;
+    o+=`<ellipse cx="115" cy="104" rx="8" ry="11" fill="#7a5a2a"/><path d="M115,95 q-2,-24 6,-40" stroke="#5c8f2b" stroke-width="3" fill="none"/><path d="${LEAF}" transform="translate(121,58) rotate(30) scale(.6)" fill="#8fc45a"/>`;
+    if(g){o+=`<path d="M115,115 C114,160 117,210 115,262" stroke="#c08550" stroke-width="5" fill="none"/>`+roots(115,150,{seed:2,n:4,spread:1.3,len:55,levels:1,branch:.25,down:.3,top:110,w:2,color:'#c08550'}).svg+`<text x="128" y="250" font-size="11" font-weight="800" fill="${SEP}">pivotante</text>`;
+      o+=roots(345,150,{seed:4,n:6,spread:1.4,len:90,levels:2,branch:.25,down:.35,top:110,w:2.6,color:'#c08550'}).svg+`<text x="420" y="270" text-anchor="end" font-size="11" font-weight="800" fill="${SEP}">adventicias (de los nudos)</text>`}
+    o+=`<rect x="338" y="40" width="12" height="120" rx="5" fill="#8a6440"/><circle cx="344" cy="60" r="4" fill="#5b3a1e"/><circle cx="344" cy="150" r="4" fill="#5b3a1e"/><path d="M344,58 q8,-20 20,-30" stroke="#5c8f2b" stroke-width="3" fill="none"/>`;
+    $('#origenSvg').innerHTML=o}
+  origen(false);$('#origenBtn').onclick=()=>origen(true);
+})();
+
+/* ---------- simulador de raíces ---------- */
+(function(){
+  const S=$('#sim');const Y0=60,M=170; /* 1 m = 170 px; suelo hasta 2 m */
+  function run(){const s=$('#fSuelo').value,m=$('#fMant').value,c=$('#fClima').value,mk=$('#fMarco').value,e=$('#fEdad').value,ang=+$('#fAng').value,ag=$('#tAgua').checked,nu=$('#tNut').checked;$('#angO').textContent=ang;
+    let floor=Y0+2*M-4,down=0.3,len=150,n=6,branch=.3,spread=ang/90*1.45,notes=[];
+    if(s==='compacta'){floor=Y0+.6*M;notes.push('La <b>capa compacta</b> frena la profundización: las raíces se desvían en horizontal.')}
+    if(s==='freatico'){floor=Y0+1*M;notes.push('Bajo el <b>nivel freático</b> no hay aire: las raíces no pueden respirar y se quedan por encima.')}
+    if(s==='roca'){floor=Y0+.8*M;notes.push('La <b>roca madre</b> es un obstáculo físico.')}
+    if(s==='fertil'){branch=.42;n=8;notes.push('Más <b>fertilidad</b>, más raíces: es el factor más influyente.')}
+    if(m==='cubierta'){down+=.5;notes.push('La <b>cubierta vegetal</b> compite y «obliga» a las raíces a profundizar.')}
+    if(m==='laboreo')notes.push('El <b>laboreo</b> rompe las raíces superficiales.');
+    if(c==='seco'){down+=.45;len+=25;notes.push('En clima <b>seco</b> las raíces son menos superficiales: buscan agua en capas profundas.')}
+    let left=0,right=480;if(mk==='apretado'){left=150;right=330;down+=.3;notes.push('Con <b>marco apretado</b> hay más competencia: más desarrollo en profundidad.')}else notes.push('Con <b>marco amplio</b> hay menos competencia: más desarrollo superficial.');
+    if(e==='juv'){len*=.55;n=5;notes.push('<b>Periodo juvenil</b> (hasta 7–8 años): expansión rápida en suelo suelto.')}
+    if(e==='sen'){branch*=.6;notes.push('<b>Senectud</b>: poco crecimiento y menos actividad biológica.')}
+    if(e==='adu')notes.push('<b>Periodo adulto</b> (hasta 40–45 años): prolongación moderada y en profundidad.');
+    const attr=[];if(ag){attr.push([390,Y0+1.3*M,.22]);notes.push('💧 <b>Hidrotropismo</b>: las raíces se desvían hacia la zona húmeda.')}if(nu){attr.push([110,Y0+.45*M,.22]);notes.push('🧪 <b>Quimiotropismo</b>: crecen hacia la zona con más nutrientes.')}
+    const R=roots(240,Y0,{seed:11+ang,n,spread,len,levels:3,branch,down,top:Y0,floor,left:left+4,right:right-4,attr,cut:m==='laboreo'?28:0,w:5,color:'#a86b38'});
+    let o=`<rect width="480" height="420" fill="#fffdf8"/><rect y="${Y0}" width="480" height="${420-Y0}" fill="#eadcbf"/>`;
+    if(m==='cubierta')for(let x=4;x<480;x+=9)o+=`<path d="M${x},${Y0} q-2,-12 0,-18 M${x},${Y0} v14" stroke="#7cb342" stroke-width="1.5"/>`;
+    if(m==='laboreo')o+=`<rect y="${Y0}" width="480" height="28" fill="#d6c299"/><text x="470" y="${Y0+18}" text-anchor="end" font-size="11" font-weight="800" fill="${SEP}">capa labrada</text>`;
+    if(s==='compacta')o+=`<rect y="${floor}" width="480" height="14" fill="#8a7a62"/><text x="470" y="${floor+11}" text-anchor="end" font-size="11" font-weight="800" fill="#fff">capa compacta</text>`;
+    if(s==='roca')o+=`<rect y="${floor}" width="480" height="${420-floor}" fill="#9a948c"/><text x="470" y="${floor+20}" text-anchor="end" font-size="11" font-weight="800" fill="#fff">roca madre</text>`;
+    if(s==='freatico')o+=`<rect y="${floor}" width="480" height="${420-floor}" fill="#9cc3e0"/><text x="470" y="${floor+20}" text-anchor="end" font-size="11" font-weight="800" fill="#1f4f78">agua · nivel freático</text>`;
+    if(ag)o+=`<ellipse cx="390" cy="${Y0+1.3*M}" rx="55" ry="30" fill="#9cc3e0" opacity=".7"/>`;
+    if(nu)o+=`<ellipse cx="110" cy="${Y0+.45*M}" rx="50" ry="26" fill="#d4a23a" opacity=".35"/>`;
+    if(mk==='apretado'){o+=`<rect x="0" y="${Y0}" width="150" height="${420-Y0}" fill="#d9c9a8" opacity=".55"/><rect x="330" y="${Y0}" width="150" height="${420-Y0}" fill="#d9c9a8" opacity=".55"/>`;[60,420].forEach(x=>o+=`<path d="M${x},${Y0} v-30" stroke="#6b4423" stroke-width="8"/><text x="${x}" y="${Y0-36}" text-anchor="middle" font-size="10" font-weight="800" fill="${SEP}">cepa vecina</text>`)}
+    o+=R.svg;
+    o+=`<path d="M234,${Y0} v-42 M246,${Y0} v-42" stroke="#6b4423" stroke-width="5"/><path d="M240,${Y0-40} C220,${Y0-55} 200,${Y0-58} 180,${Y0-56} M240,${Y0-40} C260,${Y0-55} 280,${Y0-58} 300,${Y0-56}" stroke="#6b4423" stroke-width="5" fill="none"/>`;
+    o+=`<line x1="0" y1="${Y0+M}" x2="480" y2="${Y0+M}" stroke="${SAF}" stroke-width="2" stroke-dasharray="7 5"/><text x="8" y="${Y0+M-6}" font-size="12" font-weight="800" fill="${SAF}">1 m</text><text x="8" y="${Y0+2*M-6}" font-size="12" font-weight="800" fill="${INK}">2 m</text>`;
+    S.innerHTML=o;
+    const tot=R.segs.length,top1=R.segs.filter(p=>p[1]<=Y0+M).length;$('#pct').textContent=Math.round(top1/tot*100)+' %';
+    $('#simTxt').innerHTML='<ul style="margin:0;padding-left:1.1em">'+notes.map(x=>`<li>${x}</li>`).join('')+'</ul>'}
+  ['fSuelo','fMant','fClima','fMarco','fEdad','fAng','tAgua','tNut'].forEach(id=>$('#'+id).addEventListener('input',run));$('#simGo').onclick=run;run();
+})();
+
+/* ---------- zonas de la raíz ---------- */
+(function(){
+  const Z=[['cofia','Cofia','Protege el extremo o ápice de la raíz mientras avanza por el suelo.','#d4a23a'],['meri','Meristemática','División celular: aquí se producen células nuevas.',SAF],['elon','Elongación','Las células se alargan y la raíz gana longitud.','#e08aa8'],['pili','Pilífera','Aparecen los <b>pelos absorbentes</b>: máxima actividad de absorción.',FAST],['sube','Suberificada','Predominan la protección y la conducción; pueden empezar los cambios secundarios.','#8a5a2b']];
+  let grown=0;
+  function draw(){const off=grown*40;let o=`<rect width="300" height="460" fill="#efe3c6"/>`;const x=150,yTip=380+off*.0;
+    const zs=[[yTip-30,yTip,'cofia'],[yTip-70,yTip-30,'meri'],[yTip-140,yTip-70,'elon'],[yTip-250,yTip-140,'pili'],[10,yTip-250,'sube']];
+    zs.slice().reverse().forEach(([a,b,k])=>{const z=Z.find(q=>q[0]===k);const w=k==='cofia'?18:22;o+=`<g class="zz" data-k="${k}" style="cursor:pointer"><rect x="${x-w}" y="${a}" width="${w*2}" height="${b-a}" fill="${z[3]}" ${k==='cofia'?`rx="18"`:''}/></g>`});
+    for(let y=yTip-245;y<yTip-145;y+=8){o+=`<line x1="${x-22}" y1="${y}" x2="${x-46}" y2="${y+4}" stroke="${FAST}" stroke-width="1.6"/><line x1="${x+22}" y1="${y+4}" x2="${x+46}" y2="${y}" stroke="${FAST}" stroke-width="1.6"/>`}
+    zs.forEach(([a,b,k],i)=>{const z=Z.find(q=>q[0]===k);o+=`<text x="${i%2?x+56:x-56}" y="${(a+b)/2+4}" text-anchor="${i%2?'start':'end'}" font-size="12" font-weight="800" fill="${INK}">${z[1]}</text>`});
+    o+=`<path d="M${x},${yTip+12} v40" stroke="${INK}" stroke-width="2" marker-end="url(#ar)"/><defs><marker id="ar" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8Z" fill="${INK}"/></marker></defs><text x="${x+10}" y="${yTip+40}" font-size="11" font-weight="800" fill="${INK}">crece</text>`;
+    $('#tipSvg').innerHTML=o;$$('#tipSvg .zz').forEach(g=>g.onclick=()=>show(g.dataset.k))}
+  function show(k){const z=Z.find(q=>q[0]===k);$('#tipTxt').innerHTML=`<span class="pill" style="background:${z[3]};color:#fff">Zona</span><h3 style="margin-top:6px">${z[1]}</h3><p style="margin:0">${z[2]}</p>`}
+  draw();show('pili');
+  $('#tipGrow').onclick=()=>{const svg=$('#tipSvg');svg.animate([{transform:'translateY(0)'},{transform:'translateY(14px)'},{transform:'translateY(0)'}],{duration:900});show('elon')};
+  let next=0;const order=['cofia','meri','elon','pili','sube'];
+  function zo(){next=0;$('#zMsg').textContent='';$('#zOrder').innerHTML=order.slice().sort(()=>Math.random()-.5).map(k=>`<button data-k="${k}" data-n="">${Z.find(q=>q[0]===k)[1]}</button>`).join('');
+    $$('#zOrder button').forEach(b=>b.onclick=()=>{if(b.classList.contains('ok'))return;if(b.dataset.k===order[next]){b.classList.add('ok');b.dataset.n=++next;if(next===5)$('#zMsg').innerHTML='🏆 ¡Correcto! Cofia → meristemática → elongación → pilífera → suberificada. <button class="btn sm ghost" id="zR">↺</button>',$('#zR').onclick=zo}else{b.classList.remove('bad');void b.offsetWidth;b.classList.add('bad')}})}
+  zo();
+})();
+
+/* ---------- corte transversal ---------- */
+(function(){
+  const T={epi:['Corteza','Epidermis / capa pilífera','Recubre la raíz y puede formar <b>pelos absorbentes</b>.'],exo:['Corteza','Exodermis','Capa de protección, con suberificación.'],cor:['Corteza','Parénquima cortical','Varias capas de células; puede almacenar reservas.'],endo:['Corteza','Endodermis','Regula el paso de agua y solutos hacia el cilindro central. Su <b>banda de Caspary</b> (puntos oscuros) bloquea el paso por las paredes celulares y obliga al agua a atravesar las células.'],peri:['Cilindro central','Periciclo','Origina las <b>raíces laterales</b> y participa en el crecimiento secundario.'],xil:['Cilindro central','Xilema','Conduce <b>agua y minerales</b> (savia bruta). Forma una estrella con varios brazos.'],flo:['Cilindro central','Floema','Transporta <b>fotoasimilados</b> y otras sustancias orgánicas. Está entre los brazos del xilema.'],med:['Cilindro central','Parénquima medular','Relleno y reserva, cuando está presente.']};
+  const S=$('#secSvg');S.innerHTML=`<rect width="420" height="420" fill="#1d1a1f"/>`+crossSection(210,210,1.18,true)+`<g id="wpath"></g>`;
+  function show(k){const t=T[k];$('#secTxt').innerHTML=`<span class="pill ${t[0]==='Corteza'?'o':'s'}">${t[0]}</span><h3 style="margin-top:6px">${t[1]}</h3><p style="margin:0">${t[2]}</p>`;$$('#secSvg .tis').forEach(g=>g.style.opacity=g.dataset.t===k?1:.55)}
+  $$('#secSvg .tis').forEach(g=>g.addEventListener('click',e=>{e.stopPropagation();show(g.dataset.t)}));show('endo');
+  $('#waterBtn').onclick=()=>{$$('#secSvg .tis').forEach(g=>g.style.opacity=1);const p='M410,150 L370,170 L300,185 L260,195 L240,200 L222,205 L212,208';
+    $('#wpath').innerHTML=`<path d="${p}" stroke="#8fd3ff" stroke-width="3" fill="none" stroke-dasharray="6 5"/>`+[0,.5,1,1.5].map(b=>`<circle r="6" fill="#4fb3ff" stroke="#fff" stroke-width="1.5"><animateMotion dur="3s" begin="${b}s" repeatCount="indefinite" path="${p}"/></circle>`).join('');
+    $('#secTxt').innerHTML='<h3>💧 El viaje del agua</h3><p style="margin:0">Entra por los <b>pelos absorbentes</b> de la epidermis, atraviesa la <b>corteza</b>, pasa el control de la <b>endodermis</b> (banda de Caspary), cruza el <b>periciclo</b> y llega al <b>xilema</b>, que la sube como savia bruta.</p>'};
+})();
+
+/* ---------- crecimiento secundario ---------- */
+(function(){
+  function draw(){const y=+$('#anios').value;$('#anO').textContent=y;const cx=210,cy=210;let o=`<rect width="420" height="420" fill="#1d1a1f"/>`;
+    if(y===0){o+=crossSection(cx,cy,1,false)+`<text x="210" y="405" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">Estructura primaria</text>`;$('#sec2Svg').innerHTML=o;return}
+    const xr=40+y*18,fr=xr+10+y*2,fel=fr+12,sub=fel+8+y*3;
+    if(y>=3){const r=rng(y);for(let i=0;i<14;i++){const a=i/14*Math.PI*2+r();o+=`<path d="M${cx+Math.cos(a)*(sub+4)},${cy+Math.sin(a)*(sub+4)} l${Math.cos(a)*18+r()*8},${Math.sin(a)*18+r()*8} l${r()*10-5},${r()*10}" stroke="#6b4a2a" stroke-width="5" fill="none" stroke-linecap="round"/>`}}
+    o+=`<circle cx="${cx}" cy="${cy}" r="${sub}" fill="#8a5a2b"/><circle cx="${cx}" cy="${cy}" r="${fel+2}" fill="#d7a35a"/><circle cx="${cx}" cy="${cy}" r="${fel-2}" fill="#e9d2a0"/>`;
+    o+=`<circle cx="${cx}" cy="${cy}" r="${fr}" fill="${FAST}"/><circle cx="${cx}" cy="${cy}" r="${xr+3}" fill="none" stroke="#bfe0c6" stroke-width="3" stroke-dasharray="5 3"/>`;
+    o+=`<circle cx="${cx}" cy="${cy}" r="${xr}" fill="${SAF}"/>`;for(let k=1;k<=y;k++)o+=`<circle cx="${cx}" cy="${cy}" r="${40+k*18-1}" fill="none" stroke="#7a1534" stroke-width="2"/>`;
+    const r2=rng(3);for(let i=0;i<60;i++){const a=r2()*Math.PI*2,rr=12+r2()*(xr-16);o+=`<circle cx="${cx+Math.cos(a)*rr}" cy="${cy+Math.sin(a)*rr}" r="${2+r2()*2.5}" fill="#fbe4ec"/>`}
+    o+=`<circle cx="${cx}" cy="${cy}" r="10" fill="#efe8da"/>`;
+    const lab=(rr,ang,t,c)=>{const x=cx+Math.cos(ang)*rr,yy=cy+Math.sin(ang)*rr,lx=ang>Math.PI/2&&ang<Math.PI*1.5?20:400;const w=t.length*6.3+8,bx=lx<100?lx-4:lx-w+4;return `<line x1="${x}" y1="${yy}" x2="${lx}" y2="${yy}" stroke="#fff" stroke-width="1"/><rect x="${bx}" y="${yy-17}" width="${w}" height="16" rx="3" fill="#1d1a1f" opacity=".85"/><text x="${lx}" y="${yy-5}" text-anchor="${lx<100?'start':'end'}" font-size="11" font-weight="800" fill="${c}">${t}</text>`};
+    o+=lab(xr*.6,-.35,'Xilema secundario','#ffd0de')+lab(xr+3,.3,'Cambium vascular','#bfe0c6')+lab((xr+fr)/2+3,Math.PI+.3,'Floema secundario','#9fe0b3')+lab(fel,Math.PI-.4,'Felógeno','#f3d6a0')+lab(sub-3,-.9,'Súber','#e4c49a');
+    if(y>=3)o+=lab(sub+16,Math.PI+1,'Ritidoma','#cfa77a');
+    o+=`<text x="210" y="410" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">${y} año${y>1?'s':''} de crecimiento secundario</text>`;
+    $('#sec2Svg').innerHTML=o}
+  $('#anios').addEventListener('input',draw);draw();
+})();
+
+/* ---------- franca / injertada ---------- */
+(function(){
+  const T=['<h3>Vid franca o autoenraizada</h3><p style="margin:0">La <b>variedad</b> forma directamente sus <b>propias raíces</b> y su parte aérea. Es una sola planta con una sola identidad genética.</p>','<h3>Vid injertada</h3><p style="margin:0">El <b>portainjerto o patrón</b> produce el sistema radicular y la <b>variedad injertada</b> forma la parte aérea. La unión debe lograr continuidad <b>mecánica, histológica y vascular</b>. Los patrones se usan, entre otras razones, por su resistencia a la <b>filoxera</b> y para adaptar las raíces al suelo; no todos sirven para todas las parcelas.</p>'];
+  function draw(f){let o=`<rect width="360" height="360" fill="#fffdf8"/><rect y="220" width="360" height="140" fill="#e9dcc0"/><line x1="0" y1="220" x2="360" y2="220" stroke="${INK}" stroke-dasharray="6 4"/>`;
+    const rc=f?'#d39056':'#a86b38';o+=roots(180,222,{seed:6,n:6,spread:1.2,len:90,levels:2,branch:.3,down:.5,top:222,w:4,color:rc}).svg;
+    o+=`<rect x="170" y="${f?150:110}" width="20" height="${f?72:112}" fill="${f?'#c98a4b':'#6b4423'}"/>`;
+    if(f)o+=`<rect x="170" y="110" width="20" height="40" fill="#6b4423"/><rect x="164" y="144" width="32" height="10" rx="4" fill="${ORO}"/><text x="204" y="153" font-size="11" font-weight="800" fill="#a2620e">punto de injerto</text>`;
+    o+=`<path d="M180,112 C150,90 120,80 90,74 M180,112 C210,90 240,80 270,74" stroke="#6b4423" stroke-width="7" fill="none"/>`;
+    [[90,80],[270,80],[180,70]].forEach(([x,y])=>o+=`<path d="${LEAF}" transform="translate(${x},${y}) scale(.95)" fill="#8fc45a" stroke="#3f6e22"/>`);
+    o+=`<g font-size="12" font-weight="800"><text x="12" y="20" fill="${FAST}">Parte aérea: ${f?'variedad injertada':'la variedad'}</text><text x="20" y="345" fill="${SEP}">Raíces: ${f?'portainjerto (patrón)':'de la propia variedad'}</text></g>`;
+    $('#frSvg').innerHTML=o;$('#frTxt').innerHTML=T[f]}
+  segInit('#frSeg',b=>draw(+b.dataset.f));draw(0);
+  sorter($('#sorter3'),'🎯 ¿Morfología o anatomía?',['Morfología','Anatomía'],[['Zarcillo',0],['Xilema',1],['Racimo',0],['Periciclo',1],['Brazo',0],['Endodermis',1],['Yema',0],['Felógeno',1],['Pámpano',0],['Cambium',1]]);
+})();
+
+/* ---------- caso práctico ---------- */
+(function(){
+  const C=[['Profundidad efectiva del suelo y espesor de la capa compactada (calicata)',1,'Una capa compacta limita la exploración: afecta al <b>anclaje</b> y a la <b>absorción</b>.'],
+   ['Dónde se concentran las raíces activas y cuánta cabellera radicular hay',1,'Las raíces jóvenes y los pelos absorbentes son los que <b>absorben</b> agua y nutrientes.'],
+   ['Aireación y signos de encharcamiento sobre la capa compacta',1,'Si el agua no se infiltra, falta oxígeno y se compromete la <b>respiración</b>.'],
+   ['Estado de las raíces gruesas: color, firmeza, posibles podredumbres',1,'Las raíces gruesas <b>conducen</b> la savia bruta y guardan <b>reservas</b>.'],
+   ['Si las raíces se desvían en horizontal al llegar a la capa',1,'Revela el obstáculo físico y explica un sistema radicular superficial.'],
+   ['El color de las uvas de la vendimia anterior',0,'No informa sobre el sistema radicular.'],
+   ['Cambiar directamente de variedad sin examinar el suelo',0,'Es una decisión de manejo tomada sin diagnóstico.'],
+   ['Aplicar abono foliar y no mirar las raíces',0,'Trata el síntoma (amarilleamiento) sin buscar la causa en la raíz.']];
+  const ord=C.map((_,i)=>i).sort(()=>Math.random()-.5);
+  $('#cases').innerHTML=ord.map(i=>`<label data-i="${i}"><input type="checkbox"> <span>${C[i][0]}<small class="why" style="display:block;font-weight:600;color:var(--muted)"></small></span></label>`).join('');
+  $('#caseBtn').onclick=()=>{let ok=0,bad=0;$$('#cases label').forEach(l=>{const c=C[+l.dataset.i],ch=l.querySelector('input').checked;l.classList.remove('good','badc');
+    if(c[1]&&ch){l.classList.add('good');ok++}else if(!c[1]&&ch){l.classList.add('badc');bad++}else if(c[1]&&!ch){l.classList.add('badc')}
+    l.querySelector('.why').innerHTML=(ch||c[1])?c[2]:''});
+    $('#caseMsg').innerHTML=ok===5&&bad===0?'🏆 ¡Diagnóstico completo! Has relacionado el problema con el anclaje, la absorción, la conducción, la respiración y las reservas.':`Has acertado ${ok} de 5 propuestas útiles${bad?` y has marcado ${bad} que no ayudan al diagnóstico`:''}. Lee las explicaciones.`};
+})();
+
+/* ---------- quiz ---------- */
+const Q=[
+ {q:'¿Qué diferencia hay entre vid y cepa?',o:['Son sinónimos exactos','Vid es la planta de Vitis vinifera; cepa es cada individuo cultivado','Cepa es la raíz y vid la parte aérea','Vid es silvestre y cepa injertada'],a:1,e:'1 individuo = 1 cepa.'},
+ {q:'Malvasía Volcánica y Listán Negro son…',o:['Especies distintas del género Vitis','Variedades de Vitis vinifera','Familias botánicas','Portainjertos'],a:1,e:'Son variedades cultivadas, no especies.'},
+ {q:'¿Qué es un sarmiento?',o:['Un brote verde del año','Un pámpano que se ha lignificado','Un tramo corto dejado en la poda','Una raíz adventicia'],a:1,e:'Pámpano y sarmiento son el mismo brote en distinto estado.'},
+ {q:'Un chupón o espergura…',o:['Nace de la madera vieja y no da cosecha','Nace en la axila de una hoja del pámpano','Es el brote más productivo','Es una raíz aérea'],a:0,e:'Consume savia sin dar cosecha y suele eliminarse.'},
+ {q:'¿Qué función de la raíz se compromete sobre todo en un suelo encharcado?',o:['Anclaje','Respiración','Síntesis de hormonas','Reserva'],a:1,e:'Sin aire en los poros, las raíces no pueden respirar.'},
+ {q:'Las raíces que nacen de una estaquilla se llaman…',o:['Pivotantes','Adventicias','Primarias de semilla','Pelos absorbentes'],a:1,e:'Nacen de tejidos del tallo (los nudos). «Adventicia» indica su origen, no que sea anormal.'},
+ {q:'¿Dónde están los pelos absorbentes?',o:['En la cofia','En la zona meristemática','En la zona pilífera','En el tronco'],a:2,e:'En una zona por detrás del ápice, no en la punta protegida por la cofia.'},
+ {q:'Orden correcto desde el ápice:',o:['Cofia → meristemática → elongación → pilífera → suberificada','Pilífera → cofia → elongación → meristemática → suberificada','Suberificada → pilífera → elongación → meristemática → cofia','Meristemática → cofia → pilífera → elongación → suberificada'],a:0,e:'Del ápice hacia atrás.'},
+ {q:'¿Qué hace la banda de Caspary de la endodermis?',o:['Produce raíces laterales','Bloquea el paso de agua por las paredes y controla la entrada al cilindro central','Transporta azúcares','Forma el súber'],a:1,e:'Limita el paso apoplástico y regula la entrada de agua y solutos.'},
+ {q:'¿Qué tejido origina las raíces laterales?',o:['Epidermis','Periciclo','Xilema','Cofia'],a:1,e:'El periciclo también participa en el crecimiento secundario.'},
+ {q:'El cambium vascular produce…',o:['Súber hacia fuera y felodermis hacia dentro','Xilema secundario hacia dentro y floema secundario hacia fuera','Pelos absorbentes','Solo floema'],a:1,e:'El felógeno es el que produce súber y felodermis.'},
+ {q:'Aproximadamente, ¿qué porcentaje de las raíces está en el primer metro de suelo?',o:['10 %','50 %','90 %','100 %'],a:2,e:'Es una cifra orientativa: depende de suelo, agua, obstáculos y material vegetal.'},
+ {q:'Con un marco de plantación apretado, las raíces…',o:['Se desarrollan más en superficie','Se desarrollan más en profundidad, por la competencia','No cambian','Dejan de crecer'],a:1,e:'Marco amplio: más desarrollo superficial; apretado: más en profundidad.'},
+ {q:'En una vid injertada, las raíces las forma…',o:['La variedad','El portainjerto o patrón','El punto de injerto','La púa'],a:1,e:'La variedad injertada forma la parte aérea.'},
+ {q:'¿Cuál de estos términos es de anatomía?',o:['Zarcillo','Racimo','Periciclo','Brazo'],a:2,e:'La anatomía estudia los tejidos internos; los otros son órganos externos (morfología).'},
+ {q:'En el pámpano, los entrenudos del 6.º al 15.º tienen longitud…',o:['Creciente','Constante','Decreciente','Nula'],a:1,e:'1.º–5.º creciente, 6.º–15.º constante, del 16.º al final decreciente.'}
+];
+let qi=0,score=0;
+function renderQ(){const box=$('#quizBox');
+  if(qi>=Q.length){const pct=Math.round(score/Q.length*100);box.innerHTML=`<div class="score">${score} / ${Q.length}</div><p style="text-align:center;font-size:1.15rem">${pct>=90?'🏆 ¡Excelente! Dominas la anatomía de la vid.':pct>=70?'🍇 ¡Muy bien! Repasa los fallos.':pct>=50?'🌱 Vas bien, pero conviene repasar.':'📚 Vuelve a recorrer la lección y repite el test.'}</p><div style="text-align:center"><button class="btn" id="qr">↺ Repetir</button></div>`;$('#qr').onclick=()=>{qi=0;score=0;renderQ()};return}
+  const q=Q[qi];box.innerHTML=`<div class="qbar"><div style="width:${qi/Q.length*100}%"></div></div><p style="color:var(--muted);font-weight:800;margin:0">Pregunta ${qi+1} de ${Q.length} · Aciertos: ${score}</p><h3>${q.q}</h3>${q.o.map((o,i)=>`<button class="opt" data-i="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}<div class="fb" id="fb"></div>`;
+  $$('.opt',box).forEach(b=>b.onclick=()=>{const i=+b.dataset.i,ok=i===q.a;if(ok)score++;$$('.opt',box).forEach(x=>{x.disabled=true;if(+x.dataset.i===q.a)x.classList.add('ok')});if(!ok)b.classList.add('ko');
+    const fb=$('#fb');fb.className='fb show';fb.style.background=ok?'#e2efe6':'#f9e5eb';fb.innerHTML=(ok?'✅ <b>¡Correcto!</b> ':'❌ <b>No exactamente.</b> ')+q.e+'<div style="margin-top:10px"><button class="btn g" id="qn">'+(qi<Q.length-1?'Siguiente →':'Ver resultado')+'</button></div>';$('#qn').onclick=()=>{qi++;renderQ()}})}
+renderQ();
+
+/* ---------- glosario ---------- */
+const G=[['Vid','Planta de Vitis vinifera.'],['Cepa','Individuo de vid cultivado.'],['Pámpano','Brote verde del año.'],['Sarmiento','Pámpano lignificado.'],['Pulgar','Porción corta de sarmiento conservada en la poda.'],['Vara','Porción larga de sarmiento conservada en la poda.'],['Yema','Estructura que puede originar un brote.'],['Chupón','Brote improductivo nacido de la madera vieja.'],['Nieto','Brote de la axila de una hoja del pámpano, del mismo año.'],['Raíz adventicia','Raíz nacida de tejidos del tallo.'],['Pelo absorbente','Prolongación epidérmica de absorción.'],['Endodermis','Capa que regula la entrada de agua al cilindro central.'],['Ritidoma','Tejidos externos muertos que se acumulan y se exfolian.'],['Portainjerto','Parte inferior injertada que forma el sistema radicular.']];
+$('#flips').innerHTML=G.map(g=>`<button class="flip" aria-label="${g[0]}"><div class="inn"><div class="fc">${g[0]}</div><div class="bc">${g[1]}</div></div></button>`).join('');
+$$('.flip').forEach(f=>f.onclick=()=>f.classList.toggle('on'));
+})();
+</script>
+</body>
+</html>
